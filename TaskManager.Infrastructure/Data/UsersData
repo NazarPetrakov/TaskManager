@@ -1,0 +1,50 @@
+[
+  {
+    "UserName": "BeasleyBarker",
+    "Email": "beasleybarker@xplor.com",
+    "DateOfBirth": "1972-03-25",
+    "CreatedAt": "2025-01-22"
+  },
+  {
+    "UserName": "FitzgeraldMcconnell",
+    "Email": "fitzgeraldmcconnell@xplor.com",
+    "DateOfBirth": "1981-09-10",
+    "CreatedAt": "2025-01-22"
+  },
+  {
+    "UserName": "KatherinePerkins",
+    "Email": "katherineperkins@xplor.com",
+    "DateOfBirth": "1994-12-28",
+    "CreatedAt": "2025-01-22"
+  },
+  {
+    "UserName": "BlackburnIngram",
+    "Email": "blackburningram@xplor.com",
+    "DateOfBirth": "1988-06-16",
+    "CreatedAt": "2025-01-22"
+  },
+  {
+    "UserName": "JohnRichmond",
+    "Email": "johnrichmond@xplor.com",
+    "DateOfBirth": "1992-01-13",
+    "CreatedAt": "2025-01-22"
+  },
+  {
+    "UserName": "LydiaWalters",
+    "Email": "lydiawalters@xplor.com",
+    "DateOfBirth": "1973-12-01",
+    "CreatedAt": "2025-01-22"
+  },
+  {
+    "UserName": "BarnesDonovan",
+    "Email": "barnesdonovan@xplor.com",
+    "DateOfBirth": "1989-12-17",
+    "CreatedAt": "2025-01-22"
+  },
+  {
+    "UserName": "DellaHunt",
+    "Email": "dellahunt@xplor.com",
+    "DateOfBirth": "1990-07-16",
+    "CreatedAt": "2025-01-22"
+  }
+]
