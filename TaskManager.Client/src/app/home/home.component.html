@@ -1,0 +1,15 @@
+<div class="container">
+    <h2 class="m3">home works!</h2>
+    <i class="fas fa-thumbs-up"></i> Like
+    <ul>
+        @for (user of users; track user.id) {
+            <li>{{user.userName}}</li>
+            <li>{{user.dateOfBirth}}</li>
+            <li>{{user.createdAt}}</li>
+            <li>{{user.email}}</li>
+            <br>
+        }  
+    </ul>
+</div>
+
+
