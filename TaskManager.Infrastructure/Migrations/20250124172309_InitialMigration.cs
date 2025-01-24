@@ -32,6 +32,7 @@ namespace TaskManager.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    NickName = table.Column<string>(type: "TEXT", nullable: true),
                     DateOfBirth = table.Column<DateOnly>(type: "TEXT", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),

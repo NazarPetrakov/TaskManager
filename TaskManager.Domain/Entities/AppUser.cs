@@ -4,6 +4,7 @@ namespace TaskManager.Domain.Entities;
 
 public class AppUser : IdentityUser<int>
 {
+    public string? NickName { get; set; }
     public DateOnly DateOfBirth { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 

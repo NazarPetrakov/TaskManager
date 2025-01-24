@@ -1,26 +1,16 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using TaskManager.API.Extensions;
 using TaskManager.Domain.Entities;
 using TaskManager.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-// Add services to the container.
-builder.Services.AddCors();
-builder.Services.AddDbContext<AppDbContext>(o => 
-    o.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
+// Add services to the container
 
-builder.Services.AddIdentityCore<AppUser>(o => 
-{
-    o.Password.RequireNonAlphanumeric = false;
-    o.Password.RequiredLength = 8;
-})
-    .AddRoles<AppRole>()
-    .AddRoleManager<RoleManager<AppRole>>()
-    .AddEntityFrameworkStores<AppDbContext>();
-
-builder.Services.AddControllers();
+builder.Services.AddServices(configuration);
+builder.Services.AddAuth(configuration);
 
 var app = builder.Build();
 
@@ -38,14 +28,16 @@ try
     var context = services.GetRequiredService<AppDbContext>();
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
     var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
+    var logger = services.GetRequiredService<ILogger<Program>>();
 
     await context.Database.MigrateAsync();
-    await Seed.SeedUsersAsync(userManager, roleManager);
+    await Seed.SeedUsersAsync(userManager, roleManager, logger);
 }
 catch (Exception ex)
 {
     var logger = services.GetRequiredService<ILogger<Program>>();
     logger.LogError(ex, "An error occurred during migration");
+    throw;
 }
 
 app.Run();
