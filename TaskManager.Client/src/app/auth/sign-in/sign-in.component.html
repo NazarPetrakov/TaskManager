@@ -1,0 +1,41 @@
+<div
+  class="container d-flex flex-column align-items-center justify-content-start"
+  style="margin-top: 10vh"
+>
+  <h2 class="mb-4">Sign In</h2>
+  <form (ngSubmit)="onLogin()">
+    <div class="mb-3">
+      <label for="email" class="form-label">Email address</label>
+      <input
+        type="email"
+        [(ngModel)]="loginUser.email"
+        id="email"
+        required
+        name="email"
+        class="form-control"
+        placeholder="Enter your email"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <div class="input-group">
+        <input
+          [type]="passwordVisible ? 'text' : 'password'"
+          [(ngModel)]="loginUser.password"
+          class="form-control"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+        />
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          (click)="togglePasswordVisibility()"
+        >
+          <i [class]="passwordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+        </button>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Log in</button>
+  </form>
+</div>

@@ -15,6 +15,7 @@ public static class ServicesExtension
         services.AddDbContext<AppDbContext>(o =>
             o.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IAuthService, AuthService>();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         services.AddIdentityCore<AppUser>(o =>
         {

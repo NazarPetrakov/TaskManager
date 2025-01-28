@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TaskManager.Domain.Entities;
@@ -5,7 +6,10 @@ using AppTask = TaskManager.Domain.Entities.AppTask;
 
 namespace TaskManager.Infrastructure.Data;
 
-public class AppDbContext(DbContextOptions options) : IdentityDbContext<AppUser, AppRole, int>(options)
+public class AppDbContext(DbContextOptions options) : IdentityDbContext<AppUser, 
+    AppRole, int, IdentityUserClaim<int>, 
+    AppUserRole, IdentityUserLogin<int>,
+    IdentityRoleClaim<int>, IdentityUserToken<int>>(options)
 {
     public DbSet<AppTask> Tasks { get; set; }
 

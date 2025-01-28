@@ -1,0 +1,23 @@
+.input-group {
+  display: flex;
+  width: 100%;
+  min-width: 330px;
+}
+
+.input-group .form-control {
+  border: 1px solid #ced4da;
+  background-color: #fff;
+}
+
+.input-group .btn {
+  width: 40px; 
+  padding: 0; 
+  border: 1px solid #ced4da;
+  background-color: #fff;
+}
+
+.input-group .btn i {
+  font-size: 1.1rem;
+  color: #495057;
+}
+
