@@ -4,14 +4,12 @@
   }
   
   .input-group .form-control {
-    border: 1px solid #ced4da;
     background-color: #fff;
   }
   
   .input-group .btn {
     width: 40px; 
     padding: 0; 
-    border: 1px solid #ced4da;
     background-color: #fff;
   }
   

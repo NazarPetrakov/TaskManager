@@ -5,6 +5,7 @@ namespace TaskManager.Application.DTOs;
 public class RegisterDto
 {
     [Required]
+    [StringLength(32, ErrorMessage = "Your nickname is too long")]
     public required string NickName { get; set; }
     [Required]
     [EmailAddress]

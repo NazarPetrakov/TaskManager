@@ -7,13 +7,13 @@
             <a routerLink="signUp" class="btn btn-outline-primary">Sign Up</a>
         </div>
     </div>
+}@else {
+    <h2>Hello world</h2>
     <div>
-        @for (item of users; track $index) {
+        @for (item of users; track item.id) {
             <li>{{item}}</li>
         }
     </div>
-}@else {
-    <h2>Hello world</h2>
 }
 
 

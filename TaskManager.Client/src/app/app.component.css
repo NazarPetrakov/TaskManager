@@ -19,7 +19,7 @@
   transition: width 0.25s ease-in-out, min-width 0.25s ease-in-out;
   display: flex;
   flex-direction: column;
-  background-color: #281557;
+  background-color: #421557;
   overflow-x: hidden;
 }
 #sidebar.expand {
@@ -31,6 +31,7 @@
   cursor: pointer;
   border: 0;
   padding: 1rem 1.5rem;
+  align-items: center; /* Центруємо іконку кнопки по вертикалі */
 }
 .toggle-btn i {
   font-size: 1.5rem;
@@ -48,20 +49,30 @@
   padding: 2rem 0;
   flex: 1 1 auto;
 }
-a.sidebar-link {
+.sidebar-link {
   padding: 0.625rem 1.625rem;
   color: #fff;
-  display: block;
+  display: flex; 
+  align-items: center;
   font-size: 0.9rem;
   white-space: nowrap;
   border-left: 3px solid transparent;
   cursor: pointer;
+  height: 50px; 
+  line-height: 50px;
 }
 .sidebar-link i {
   font-size: 1.1rem;
   margin-right: 0.75rem;
 }
+.sidebar-link span {
+  display: inline-block;
+  max-width: 92%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 a.sidebar-link:hover {
   background-color: rgba(255, 255, 255, 0.075);
-  border-left: 4px solid rgb(32, 32, 250);
+  border-left: 4px solid rgb(255, 255, 255);
 }

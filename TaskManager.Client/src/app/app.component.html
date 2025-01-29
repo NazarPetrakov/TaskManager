@@ -6,14 +6,14 @@
       </button>
       <div class="sidebar-logo">
         @if (toggle) {
-        <a routerLink="">TaskManager</a>
+        <a routerLink="/">TaskManager</a>
         }
       </div>
     </div>
     @if(accountService.currentUser()){
     <ul class="sidebar-nav">
       <li class="sidebar-item">
-        <a routerLink="" class="sidebar-link">
+        <a routerLink="/profile" class="sidebar-link">
           <i class="fa-regular fa-user"></i>
           @if (toggle) {
           <span>{{accountService.currentUser()?.nickName}}</span>
@@ -21,7 +21,7 @@
         </a>
       </li>
       <li class="sidebar-item">
-        <a routerLink="" class="sidebar-link">
+        <a routerLink="/tasks" class="sidebar-link">
           <i class="fa-regular fa-calendar"></i>
           @if (toggle) {
           <span>Tasks</span>

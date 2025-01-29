@@ -2,14 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { AccountService } from '../../_services/account.service';
-import { AppUser } from '../../models/AppUser';
 import { Router } from '@angular/router';
 
 @Component({
@@ -26,6 +24,7 @@ export class SignUpComponent implements OnInit {
   signUpForm: FormGroup = new FormGroup({});
   isFormSubmitted = false;
   passwordVisible: boolean = false;
+  validationErrors:any[] | undefined;
 
   ngOnInit(): void {
     this.initializeForm();
@@ -33,7 +32,7 @@ export class SignUpComponent implements OnInit {
 
   initializeForm() {
     this.signUpForm = this.fb.group({
-      nickName: ['', Validators.required],
+      nickName: ['', [Validators.required, Validators.maxLength(32)]],
       email: ['', [Validators.required, Validators.email]],
       password: [
         '',
@@ -41,9 +40,9 @@ export class SignUpComponent implements OnInit {
           Validators.required,
           Validators.minLength(8),
           Validators.maxLength(16),
-        ],
+        ],  
       ],
-      dateOfBirth: [new Date('2001/01/01'), Validators.required],
+      dateOfBirth: ['2000-01-01', Validators.required],
     });
   }
   togglePasswordVisibility(): void {
@@ -53,14 +52,20 @@ export class SignUpComponent implements OnInit {
     const dob = this.getDateOnly(this.signUpForm.get('dateOfBirth')?.value);
     this.signUpForm.patchValue({ dateOfBirth: dob });
     this.accountService.register(this.signUpForm.value).subscribe({
-      next: (user) => {
+      next: () => {
         this.router.navigateByUrl('')
       },
-      error: (error) => console.log(error),
+      error: (errors) => {
+        console.error(errors)
+        this.validationErrors = Array.isArray(errors) ? errors : undefined;}
     });
   }
   private getDateOnly(dob: string | undefined) {
     if (!dob) return;
-    return new Date(dob).toISOString().slice(0, 10);
+    const date = new Date(dob);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${year}-${month}-${day}`;
   }
 }

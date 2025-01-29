@@ -21,6 +21,7 @@ export class SignInComponent {
   onLogin() {
     this.accountService.login(this.loginUser).subscribe({
       next: (_) => this.router.navigateByUrl(''),
+      error: errors => console.log(errors)
     });
   }
   togglePasswordVisibility(): void {
