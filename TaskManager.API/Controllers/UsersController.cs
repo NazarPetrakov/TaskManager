@@ -1,22 +1,16 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using TaskManager.Infrastructure.Data;
+using TaskManager.Application.DTOs;
+using TaskManager.Application.IServices;
 
 namespace TaskManager.API.Controllers
 {
     [Authorize]
-    public class UsersController(AppDbContext context) : BaseApiController
+    public class UsersController(IAuthService authService) : BaseApiController
     {
-        [HttpGet]
-        public async Task<IActionResult> GetUsers()
-        {
-            return Ok(await context.Users.ToListAsync());
-        }
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserById(int id)
-        {
-            return Ok(await context.Users.FindAsync(id));
-        }
+        [HttpGet("me")]
+        public async Task<ActionResult<AppUserDto>> GetAuthorizedUser() =>
+            await authService.GetAuthorizedUser(User);
+            
     }
 }

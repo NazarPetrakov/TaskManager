@@ -1,17 +1,17 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AccountService } from './_services/account.service';
-import { AppUser } from './models/AppUser';
+import { User } from './models/User';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, RouterLink],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
-export class AppComponent implements OnInit{
-  private router = inject(Router)  
+export class AppComponent implements OnInit {
+  private router = inject(Router);
   accountService = inject(AccountService);
   title = 'TaskManager.Client';
   toggle = true;
@@ -23,13 +23,13 @@ export class AppComponent implements OnInit{
   toggleSidebar() {
     this.toggle = !this.toggle;
   }
-  setCurrentUser(){
+  setCurrentUser() {
     const userString = localStorage.getItem('user');
     if (!userString) return;
-    const user: AppUser = JSON.parse(userString);
+    const user: User = JSON.parse(userString);
     this.accountService.setCurrentUser(user);
   }
-  logout(){
+  logout() {
     this.accountService.logout();
     this.router.navigateByUrl('');
   }

@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using TaskManager.Application.IRepositories;
 using TaskManager.Application.IServices;
 using TaskManager.Application.Services;
 using TaskManager.Domain.Entities;
 using TaskManager.Infrastructure.Data;
+using TaskManager.Infrastructure.Repositories;
 
 namespace TaskManager.API.Extensions;
 
@@ -16,6 +18,8 @@ public static class ServicesExtension
             o.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<ITaskRepository, TaskRepository>();
+        services.AddScoped<ITaskService, TaskService>();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         services.AddIdentityCore<AppUser>(o =>
         {

@@ -1,7 +1,5 @@
-export interface User{
-    id: number
-    userName: string;
-    email: string;
-    dateOfBirth: Date;
-    createdAt: Date;
+export class User {
+  token?: string;
+  nickName?: string;
+  email?: string;
 }

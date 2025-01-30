@@ -1,7 +1,9 @@
+using System.Security.Claims;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using TaskManager.Application.DTOs;
 using TaskManager.Application.Exceptions;
+using TaskManager.Application.Extensions;
 using TaskManager.Application.IServices;
 using TaskManager.Domain.Entities;
 
@@ -31,7 +33,6 @@ public class AuthService(IMapper mapper, UserManager<AppUser> userManager,
             NickName = user.NickName
         };
     }
-
     public async Task<UserDto> RegisterUserAsync(RegisterDto registerDto)
     {
        if (await userManager.FindByEmailAsync(registerDto.Email) != null)
@@ -55,5 +56,15 @@ public class AuthService(IMapper mapper, UserManager<AppUser> userManager,
             Token = token,
             NickName = registerDto.NickName
         };
+    }
+    public async Task<AppUserDto> GetAuthorizedUser(ClaimsPrincipal user)
+    {
+        var userId = user.GetUserId();
+        var appUser = await userManager.FindByIdAsync(userId) 
+            ?? throw new KeyNotFoundException("No users with this id");
+
+        var result = mapper.Map<AppUserDto>(appUser);
+
+        return result;
     }
 }

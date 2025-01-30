@@ -1,8 +1,9 @@
+using System;
 using TaskManager.Domain.Enums;
 
-namespace TaskManager.Domain.Entities;
+namespace TaskManager.Application.DTOs.Task;
 
-public class AppTask
+public class TaskDto
 {
     public int Id { get; set; }
     public string? Title { get; set; }
@@ -12,8 +13,5 @@ public class AppTask
     public DateTime? DeadLine { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? CompletedAt { get; set; }
-
     public int UserId { get; set; }
-    public AppUser User { get; set; } = null!;
-
 }

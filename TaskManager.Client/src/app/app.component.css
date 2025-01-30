@@ -71,6 +71,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 1.1em;
 }
 a.sidebar-link:hover {
   background-color: rgba(255, 255, 255, 0.075);
