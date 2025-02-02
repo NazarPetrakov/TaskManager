@@ -1,15 +1,16 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Application.DTOs.Task;
 using TaskManager.Application.Helpers.QueryParams;
 using TaskManager.Application.IServices;
+using TaskManager.Domain.Entities;
 
 namespace TaskManager.API.Controllers;
 
 [Authorize]
 public class TasksController(ITaskService taskService) : BaseApiController
 {
-    //admin
     [HttpGet]
     public async Task<ActionResult<List<TaskDto>>> GetTasks(
         [FromQuery] TaskQueryParams taskQueryParams) =>
@@ -26,7 +27,13 @@ public class TasksController(ITaskService taskService) : BaseApiController
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteTask(int id) 
     {
-        await taskService.DeleteTask(id);
+        await taskService.DeleteTaskAsync(id);
+        return Ok();
+    }
+    [HttpPatch("{id}")]
+    public async Task<ActionResult> PatchTask(int id, [FromBody] JsonPatchDocument<AppTask> doc)
+    {
+        await taskService.PatchTaskAsync(id, doc);
         return Ok();
     }
         

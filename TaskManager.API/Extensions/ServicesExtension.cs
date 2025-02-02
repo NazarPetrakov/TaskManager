@@ -31,7 +31,7 @@ public static class ServicesExtension
             .AddRoleManager<RoleManager<AppRole>>()
             .AddEntityFrameworkStores<AppDbContext>();
 
-        services.AddControllers();
+        services.AddControllers().AddNewtonsoftJson();
 
         return services;
     }

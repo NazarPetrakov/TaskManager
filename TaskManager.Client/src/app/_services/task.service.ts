@@ -31,7 +31,10 @@ export class TaskService {
 
     return this.http.get<Task[]>(this.baseUrl + 'tasks', options);
   }
-  deleteTask(taskId: number){
-    return this.http.delete(this.baseUrl + 'tasks/' + taskId)
+  patchTask(taskId: number, patchDoc: any) {
+    return this.http.patch(this.baseUrl + 'tasks/' + taskId, patchDoc);
+  }
+  deleteTask(taskId: number) {
+    return this.http.delete(this.baseUrl + 'tasks/' + taskId);
   }
 }

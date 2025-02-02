@@ -10,6 +10,7 @@ public interface ITaskRepository
     Task<AppTask?> GetTaskByIdAsync(int id);
     Task CreateTaskAsync(AppTask task);
     void DeleteTask(AppTask task);
+    void UpdateTask(AppTask task);
     Task<bool> SaveChangesAsync();
 
 }

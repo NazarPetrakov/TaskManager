@@ -36,13 +36,19 @@ export class TaskComponent {
   getPriorityClass = getPriorityClass;
 
   changeStatus(status: ProgressStatus) {
+    const patchDoc = [{ op: 'replace', path: '/status', value: status }];
     if (this.task()) {
-      this.onChangeStatus.emit([this.task()!.id, status]);
+      this.taskService.patchTask(this.task()!.id, patchDoc).subscribe({
+        next: () => this.onChangeStatus.emit([this.task()!.id, status]),
+      });
     }
   }
   changePriority(priority: PriorityLevel) {
+    const patchDoc = [{ op: 'replace', path: '/priority', value: priority }];
     if (this.task()) {
-      this.onChangePriority.emit([this.task()!.id, priority]);
+      this.taskService.patchTask(this.task()!.id, patchDoc).subscribe({
+        next: () => this.onChangePriority.emit([this.task()!.id, priority]),
+      });
     }
   }
   deleteTask(): void {

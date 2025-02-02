@@ -15,16 +15,18 @@ public class TaskRepository(AppDbContext context, IMapper mapper) : ITaskReposit
     {
         await context.Tasks.AddAsync(task);
     }
-
     public void DeleteTask(AppTask task)
     {
         context.Tasks.Remove(task);
+    }
+    public void UpdateTask(AppTask task)
+    {
+        context.Entry(task).State = EntityState.Modified;
     }
     public async Task<AppTask?> GetTaskByIdAsync(int id)
     {
         return await context.Tasks.FirstOrDefaultAsync(td => td.Id == id);
     }
-
     public async Task<List<TaskDto>> GetTasksAsync(TaskQueryParams taskQueryParams)
     {
         var query = context.Tasks.ProjectTo<TaskDto>(mapper.ConfigurationProvider);
@@ -36,7 +38,6 @@ public class TaskRepository(AppDbContext context, IMapper mapper) : ITaskReposit
 
         return await query.ToListAsync();
     }
-
     public async Task<bool> SaveChangesAsync()
     {
         return await context.SaveChangesAsync() > 0;
