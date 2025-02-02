@@ -1,0 +1,10 @@
+<div class="container">
+  @for (task of tasks(); track task.id ) {
+  <app-task
+    [task]="task"
+    (onDelete)="onDeleteTask($event)"
+    (onChangeStatus)="onChangeTaskStatus($event)"
+    (onChangePriority)="onChangeTaskPriority($event)"
+  ></app-task>
+  }
+</div>

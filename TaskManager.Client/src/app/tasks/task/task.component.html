@@ -1,0 +1,155 @@
+@if (task()) {
+<div class="container mt-4">
+  <div class="d-flex task-card">
+    <div class="flex-grow-1">
+      <div class="task-title">{{ task()?.title }}</div>
+      <div class="task-desc">{{ task()?.description }}</div>
+      <div class="d-flex task-props">
+        <div class="col-4 btn-group" dropdown>
+          <button
+            id="button-basic"
+            dropdownToggle
+            type="button"
+            class="btn dropdown-toggle rounded-0"
+            [ngClass]="getStatusClass(task()!.status)"
+            aria-controls="dropdown-basic"
+          >
+            {{ getStatus(task()?.status) }} <span class="caret"></span>
+          </button>
+          <ul
+            id="dropdown-basic"
+            *dropdownMenu
+            class="dropdown-menu"
+            role="menu"
+            aria-labelledby="button-basic"
+          >
+            <li role="menuitem">
+              <a
+                class="dropdown-item"
+                (click)="changeStatus(progressStatus.NotStarted)"
+                [class.disabled]="task()?.status === progressStatus.NotStarted"
+                >{{ getStatus(progressStatus.NotStarted) }}</a
+              >
+            </li>
+            <li role="menuitem">
+              <a
+                class="dropdown-item"
+                (click)="changeStatus(progressStatus.InProgress)"
+                [class.disabled]="task()?.status === progressStatus.InProgress"
+                >{{ getStatus(progressStatus.InProgress) }}</a
+              >
+            </li>
+            <li role="menuitem">
+              <a
+                class="dropdown-item"
+                (click)="changeStatus(progressStatus.Stuck)"
+                [class.disabled]="task()?.status === progressStatus.Stuck"
+                >{{ getStatus(progressStatus.Stuck) }}</a
+              >
+            </li>
+            <li role="menuitem">
+              <a
+                class="dropdown-item"
+                (click)="changeStatus(progressStatus.Done)"
+                [class.disabled]="task()?.status === progressStatus.Done"
+                >{{ getStatus(progressStatus.Done) }}</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-4 btn-group" dropdown>
+          <button
+            id="button-basic"
+            dropdownToggle
+            type="button"
+            class="btn btn-primary dropdown-toggle rounded-0"
+            [ngClass]="getPriorityClass(task()!.priority)"
+            aria-controls="dropdown-basic"
+          >
+            {{ getPriority(task()?.priority) }} <span class="caret"></span>
+          </button>
+          <ul
+            id="dropdown-basic"
+            *dropdownMenu
+            class="dropdown-menu"
+            role="menu"
+            aria-labelledby="button-basic"
+          >
+            <li role="menuitem">
+              <a
+                class="dropdown-item"
+                (click)="changePriority(priorityLevel.Low)"
+                [class.disabled]="task()?.priority === priorityLevel.Low"
+                >{{ getPriority(priorityLevel.Low) }}</a
+              >
+            </li>
+            <li role="menuitem">
+              <a
+                class="dropdown-item"
+                (click)="changePriority(priorityLevel.Medium)"
+                [class.disabled]="task()?.priority === priorityLevel.Medium"
+                >{{ getPriority(priorityLevel.Medium) }}</a
+              >
+            </li>
+            <li role="menuitem">
+              <a
+                class="dropdown-item"
+                (click)="changePriority(priorityLevel.High)"
+                [class.disabled]="task()?.priority === priorityLevel.High"
+                >{{ getPriority(priorityLevel.High) }}</a
+              >
+            </li>
+            <li role="menuitem">
+              <a
+                class="dropdown-item"
+                (click)="changePriority(priorityLevel.Critical)"
+                [class.disabled]="task()?.priority === priorityLevel.Critical"
+                >{{ getPriority(priorityLevel.Critical) }}</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-4 btn-group" dropdown>
+          <button
+            id="button-basic"
+            dropdownToggle
+            type="button"
+            class="btn btn-primary dropdown-toggle rounded-0"
+            aria-controls="dropdown-basic"
+          >
+            Due to: {{ task()?.deadLine | date }} <span class="caret"></span>
+          </button>
+          <ul
+            id="dropdown-basic"
+            *dropdownMenu
+            class="dropdown-menu"
+            role="menu"
+            aria-labelledby="button-basic"
+          >
+            <li role="menuitem">
+              <a class="dropdown-item">Action</a>
+            </li>
+            <li role="menuitem">
+              <a class="dropdown-item" href="#">Another action</a>
+            </li>
+            <li role="menuitem">
+              <a class="dropdown-item" href="#">Something else here</a>
+            </li>
+            <li class="divider dropdown-divider"></li>
+            <li role="menuitem">
+              <a class="dropdown-item" href="#">Separated link</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div
+      class="d-flex align-items-center justify-content-center trash-container"
+    >
+      <i (click)="deleteTask()" class="fa-solid fa-x"></i>
+    </div>
+  </div>
+</div>
+}

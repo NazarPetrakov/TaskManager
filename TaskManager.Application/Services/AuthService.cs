@@ -21,21 +21,21 @@ public class AuthService(IMapper mapper, UserManager<AppUser> userManager,
 
         if (!isCorrectPassword) throw new UnauthorizedAccessException("Invalid Password");
 
-        var email = await userManager.GetEmailAsync(user);
-        if (email == null) throw new ArgumentException("No email for user");
+        var id = await userManager.GetUserIdAsync(user);
+        if (string.IsNullOrEmpty(id)) throw new ArgumentException("No id for user");
 
         var token = await tokenService.CreateToken(user);
 
         return new UserDto
         {
-            Email = email,
+            Id = id,
             Token = token,
             NickName = user.NickName
         };
     }
     public async Task<UserDto> RegisterUserAsync(RegisterDto registerDto)
     {
-       if (await userManager.FindByEmailAsync(registerDto.Email) != null)
+        if (await userManager.FindByEmailAsync(registerDto.Email) != null)
             throw new ArgumentException("A user with this email address is already registered.");
 
         var user = mapper.Map<AppUser>(registerDto);
@@ -45,14 +45,14 @@ public class AuthService(IMapper mapper, UserManager<AppUser> userManager,
         var createResult = await userManager.CreateAsync(user, registerDto.Password);
         if (!createResult.Succeeded) throw new ValidationException("Registration failed", createResult.Errors);
 
-        var email = await userManager.GetEmailAsync(user);
-        if (email == null) throw new ArgumentException("No email for user");
+        var id = await userManager.GetUserIdAsync(user);
+        if (string.IsNullOrEmpty(id)) throw new ArgumentException("No id for user");
 
         var token = await tokenService.CreateToken(user);
 
         return new UserDto
         {
-            Email = email,
+            Id = id,
             Token = token,
             NickName = registerDto.NickName
         };
@@ -60,7 +60,7 @@ public class AuthService(IMapper mapper, UserManager<AppUser> userManager,
     public async Task<AppUserDto> GetAuthorizedUser(ClaimsPrincipal user)
     {
         var userId = user.GetUserId();
-        var appUser = await userManager.FindByIdAsync(userId) 
+        var appUser = await userManager.FindByIdAsync(userId)
             ?? throw new KeyNotFoundException("No users with this id");
 
         var result = mapper.Map<AppUserDto>(appUser);

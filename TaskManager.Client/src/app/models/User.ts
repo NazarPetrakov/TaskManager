@@ -1,5 +1,5 @@
 export class User {
   token?: string;
   nickName?: string;
-  email?: string;
+  id?: string;
 }

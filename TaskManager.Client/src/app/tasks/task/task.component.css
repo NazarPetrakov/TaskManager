@@ -1,0 +1,87 @@
+.task-card {
+  width: 90%; /* Use percentage for flexibility */
+  max-width: 900px; /* Set a maximum width for larger screens */
+  margin: 0 auto; /* Center the card */
+  padding: 0;
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.task-props {
+  display: flex;
+  align-items: stretch; /* Ensure children stretch to full height */
+  border: 3px solid #510668;
+}
+
+.task-title {
+  padding: 0.5em 1em; /* Use em for padding */
+  display: inline-block;
+  border: 3px solid #510668;
+  background-color: #510668;
+  color: white;
+  border-bottom: none;
+  border-radius: 15px 25px 0px 0px;
+  font-size: 1.2em; /* Use em for font size */
+}
+
+.task-desc {
+  padding: 1em;
+  line-height: 1.5; /* Improve line height for readability */
+  width: 100%;
+  border: 3px solid #510668;
+  border-bottom: none;
+  font-size: 1em; /* Use em for font size */
+}
+
+.status {
+  color: white;
+  font-weight: bold;
+  padding: 0.5em;
+  text-align: center;
+  flex: 1; /* Ensure each status div takes equal space */
+  display: flex;
+  align-items: center; /* Center text vertically */
+  justify-content: center; /* Center text horizontally */
+  overflow: hidden; /* Prevent text overflow */
+  white-space: nowrap; /* Prevent text wrapping */
+  text-overflow: ellipsis; /* Add ellipsis for overflow text */
+  font-size: 1em; /* Use em for font size */
+}
+
+.not-started {
+  background-color: green;
+}
+
+.low-priority {
+  background-color: yellow;
+  color: black;
+}
+
+.due-date {
+  background-color: red;
+}
+
+.trash-container {
+  padding-left: 30px;
+  font-size: 2em;
+}
+
+.trash-container > i {
+  color: rgb(83, 0, 0);
+  cursor: pointer;
+}
+/* Ensure Bootstrap dropdown styles are not overridden */
+.btn-group {
+  position: relative; /* Required for dropdown positioning */
+}
+
+.dropdown-menu {
+  position: absolute; /* Required for dropdown positioning */
+  top: 100%; /* Position the dropdown below the button */
+  left: 0;
+  z-index: 1000; /* Ensure dropdown appears above other elements */
+  display: none; /* Hide by default (Bootstrap will handle toggling) */
+}
+
+.dropdown-menu.show {
+  display: block; /* Show the dropdown when toggled */
+}

@@ -1,1 +1,21 @@
-<p>task-list works!</p>
+<div class="container">
+  <h1 class="text-center my-4">Your Tasks</h1>
+  <tabset class="task-tabset">
+    <tab heading="To Do" [active]="true" (selectTab)="loadTodoTasks()">
+      <tasks-container
+        [tasks]="tasks()"
+        (onDelete)="deleteTask($event)"
+        (onChangeStatus)="changeTaskStatus($event)"
+        (onChangePriority)="changeTaskPriority($event)"
+      ></tasks-container>
+    </tab>
+    <tab heading="Complete" (selectTab)="loadCompleteTasks()">
+      <tasks-container
+        [tasks]="tasks()"
+        (onDelete)="deleteTask($event)"
+        (onChangeStatus)="changeTaskStatus($event)"
+        (onChangePriority)="changeTaskPriority($event)"
+        ></tasks-container>
+    </tab>
+  </tabset>
+</div>
