@@ -14,5 +14,8 @@ public class AppMappingProfile : Profile
         CreateMap<AppUser, AppUserDto>();
         CreateMap<AppTask, TaskDto>();
         CreateMap<CreateTaskDto, AppTask>();
+        CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
+        CreateMap<DateTime?, DateTime?>()
+            .ConvertUsing(d => d.HasValue ? DateTime.SpecifyKind(d.Value, DateTimeKind.Utc) : null);
     }
 }

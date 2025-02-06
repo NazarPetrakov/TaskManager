@@ -1,6 +1,9 @@
+.dropdown-item{
+  cursor: pointer;
+}
 .task-card {
-  width: 90%; /* Use percentage for flexibility */
-  max-width: 900px; /* Set a maximum width for larger screens */
+  width: 80%; /* Use percentage for flexibility */
+  max-width: 1100px; /* Set a maximum width for larger screens */
   margin: 0 auto; /* Center the card */
   padding: 0;
   box-sizing: border-box; /* Include padding and border in the element's total width and height */
@@ -47,27 +50,17 @@
   font-size: 1em; /* Use em for font size */
 }
 
-.not-started {
-  background-color: green;
-}
-
-.low-priority {
-  background-color: yellow;
-  color: black;
-}
-
-.due-date {
-  background-color: red;
-}
-
 .trash-container {
   padding-left: 30px;
-  font-size: 2em;
+  font-size: 1.8em;
 }
 
 .trash-container > i {
-  color: rgb(83, 0, 0);
+  color: var(--bs-danger);
   cursor: pointer;
+}
+.task-card i:hover {
+  transform: scale(1.1);
 }
 /* Ensure Bootstrap dropdown styles are not overridden */
 .btn-group {
@@ -85,3 +78,24 @@
 .dropdown-menu.show {
   display: block; /* Show the dropdown when toggled */
 }
+
+.date-input {
+  border: none;
+  border-bottom: 1px solid white;
+  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+  color: var(--bs-light) !important;
+  font-size: 1.05em;
+  text-align: center;
+}
+.date-input:hover {
+  background-color: rgb(255, 255, 255) !important;
+  cursor: pointer;
+  transform: scale(1.05);
+  color: var(--bs-primary) !important;
+}
+/* Fix placeholder color */
+.date-input::placeholder {
+  color: var(--bs-light) !important;
+  opacity: 0.5;
+}
+

@@ -1,3 +1,7 @@
+<ngx-spinner type="ball-clip-rotate">
+  <h3>Loading</h3>
+</ngx-spinner>
+
 <div class="wrapper">
   <aside id="sidebar" [class.expand]="toggle">
     <div class="d-flex mt-3">
@@ -16,7 +20,7 @@
         <a routerLink="/profile" class="sidebar-link">
           <i class="fa-regular fa-user"></i>
           @if (toggle) {
-          <span>{{accountService.currentUser()?.nickName}}</span>
+          <span>{{ accountService.currentUser()?.nickName }}</span>
           }
         </a>
       </li>

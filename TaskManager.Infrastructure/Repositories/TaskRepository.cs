@@ -35,6 +35,14 @@ public class TaskRepository(AppDbContext context, IMapper mapper) : ITaskReposit
         {
             query = query.Where(td => td.UserId == taskQueryParams.UserId.Value);
         }
+        if (taskQueryParams.Status.HasValue)
+        {
+            query = query.Where(td => td.Status == taskQueryParams.Status.Value);
+        }
+        if (taskQueryParams.ExcludeStatus.HasValue)
+        {
+            query = query.Where(td => td.Status != taskQueryParams.ExcludeStatus.Value);
+        }
 
         return await query.ToListAsync();
     }

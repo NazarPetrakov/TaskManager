@@ -1,21 +1,40 @@
 <div class="container">
-  <h1 class="text-center my-4">Your Tasks</h1>
+  <div
+    class="d-flex justify-content-center align-items-center position-relative my-4"
+  >
+    <h1 class="mb-0">Your Tasks</h1>
+    <button
+      class="btn btn-success ms-3"
+      tooltip="Create new task"
+      placement="right"
+      (click)="openNewTaskModal()"
+    >
+      <i class="fa-solid fa-plus"></i>
+    </button>
+  </div>
   <tabset class="task-tabset">
     <tab heading="To Do" [active]="true" (selectTab)="loadTodoTasks()">
+      @if (loading()) {} @else if (isToDo) {
       <tasks-container
         [tasks]="tasks()"
         (onDelete)="deleteTask($event)"
-        (onChangeStatus)="changeTaskStatus($event)"
-        (onChangePriority)="changeTaskPriority($event)"
+        (ChangeTask)="changeTask($event)"
       ></tasks-container>
+      } @else {
+      <h2>No task to do</h2>
+      }
     </tab>
+
     <tab heading="Complete" (selectTab)="loadCompleteTasks()">
+      @if (loading()) {} @else if (isCompleted) {
       <tasks-container
         [tasks]="tasks()"
         (onDelete)="deleteTask($event)"
-        (onChangeStatus)="changeTaskStatus($event)"
-        (onChangePriority)="changeTaskPriority($event)"
-        ></tasks-container>
+        (ChangeTask)="changeTask($event)"
+      ></tasks-container>
+      } @else {
+      <h2>No completed tasks</h2>
+      }
     </tab>
   </tabset>
 </div>

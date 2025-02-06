@@ -2,8 +2,39 @@
 <div class="container mt-4">
   <div class="d-flex task-card">
     <div class="flex-grow-1">
+      @if(task()?.title){
       <div class="task-title">{{ task()?.title }}</div>
-      <div class="task-desc">{{ task()?.description }}</div>
+      }
+      <div class="task-desc d-flex justify-content-between align-items-center">
+        <!-- Show text when NOT editing -->
+        <span *ngIf="!isEditing">{{ task()?.description }}</span>
+
+        <!-- Show input when editing -->
+        <input
+          *ngIf="isEditing"
+          #editInput
+          type="text"
+          class="form-control me-3"
+          (blur)="saveDescription()"
+          [(ngModel)]="updatedDescription"
+          (keyup.enter)="saveDescription()"
+          (keyup.esc)="discardEdit()"
+        />
+        <!-- Edit icon -->
+        <i
+          *ngIf="!isEditing"
+          class="fa-solid fa-pen-to-square fa-lg"
+          style="cursor: pointer"
+          (click)="enableEdit()"
+        ></i>
+        <i
+          *ngIf="isEditing"
+          class="fa-solid fa-check fa-xl"
+          style="cursor: pointer"
+          (click)="saveDescription()"
+        ></i>
+      </div>
+
       <div class="d-flex task-props">
         <div class="col-4 btn-group" dropdown>
           <button
@@ -111,37 +142,29 @@
           </ul>
         </div>
 
-        <div class="col-4 btn-group" dropdown>
-          <button
-            id="button-basic"
-            dropdownToggle
-            type="button"
-            class="btn btn-primary dropdown-toggle rounded-0"
-            aria-controls="dropdown-basic"
-          >
-            Due to: {{ task()?.deadLine | date }} <span class="caret"></span>
-          </button>
-          <ul
-            id="dropdown-basic"
-            *dropdownMenu
-            class="dropdown-menu"
-            role="menu"
-            aria-labelledby="button-basic"
-          >
-            <li role="menuitem">
-              <a class="dropdown-item">Action</a>
-            </li>
-            <li role="menuitem">
-              <a class="dropdown-item" href="#">Another action</a>
-            </li>
-            <li role="menuitem">
-              <a class="dropdown-item" href="#">Something else here</a>
-            </li>
-            <li class="divider dropdown-divider"></li>
-            <li role="menuitem">
-              <a class="dropdown-item" href="#">Separated link</a>
-            </li>
-          </ul>
+        <div
+          class="col-4 d-flex align-items-center gap-2 bg-primary text-light"
+        >
+          <label class="ms-2">Due to:</label>
+          <input
+            type="text"
+            class="form-control form-control-sm bg-primary text-light date-input"
+            bsDatepicker
+            placeholder="No deadline"
+            [(ngModel)]="date"
+            [bsConfig]="{
+              withTimepicker: true,
+              keepDatepickerOpened: true,
+              adaptivePosition: true,
+              dateInputFormat: 'DD MMM YYYY, HH:mm:ss',
+              containerClass: 'theme-red',
+              showClearButton: true,
+              clearPosition: 'right'
+            }"
+            [minDate]="minDate"
+            (onHidden)="updateDate()"
+            style="max-width: 190px"
+          />
         </div>
       </div>
     </div>

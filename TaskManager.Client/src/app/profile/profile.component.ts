@@ -7,20 +7,19 @@ import { AppUser } from '../models/AppUser';
   standalone: true,
   imports: [],
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.css'
+  styleUrl: './profile.component.css',
 })
-export class ProfileComponent implements OnInit{
+export class ProfileComponent implements OnInit {
   private usersService = inject(UsersService);
   user!: AppUser;
-  
+
   ngOnInit(): void {
-    this.loadMe();
+      this.loadMe();
   }
 
-  loadMe(){
+  loadMe() {
     this.usersService.getUser().subscribe({
-      next: user => this.user = user
-    })
+      next: (user) => (this.user = user),
+    });
   }
-
 }

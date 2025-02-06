@@ -2,11 +2,12 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AccountService } from './_services/account.service';
 import { User } from './models/User';
+import { NgxSpinnerComponent } from 'ngx-spinner';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink, NgxSpinnerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -19,7 +20,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.setCurrentUser();
   }
-
   toggleSidebar() {
     this.toggle = !this.toggle;
   }

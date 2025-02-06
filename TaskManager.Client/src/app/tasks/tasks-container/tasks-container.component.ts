@@ -13,17 +13,16 @@ import { PriorityLevel } from '../../_helpers/enums/priorityLevel';
 })
 export class TasksContainerComponent {
   onDelete = output<number>();
-  onChangeStatus = output<[number, ProgressStatus]>();
-  onChangePriority = output<[number, PriorityLevel]>();
+  ChangeTask = output<[number, Task]>();
   tasks = input.required<Task[]>();
 
   onDeleteTask(taskId: number) {
     this.onDelete.emit(taskId);
   }
-  onChangeTaskStatus([taskId, newStatus]: [number, ProgressStatus]) {
-    this.onChangeStatus.emit([taskId, newStatus]);
+  onChangeTask([taskId, newTask]: [number, Task]) {
+    this.ChangeTask.emit([taskId, newTask]);
   }
-  onChangeTaskPriority([taskId, newPriority]: [number, PriorityLevel]) {
-    this.onChangePriority.emit([taskId, newPriority]);
-  }
+  // onChangeTaskPriority([taskId, newPriority]: [number, PriorityLevel]) {
+  //   this.onChangePriority.emit([taskId, newPriority]);
+  // }
 }

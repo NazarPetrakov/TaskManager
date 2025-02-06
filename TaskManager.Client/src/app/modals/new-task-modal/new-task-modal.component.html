@@ -1,0 +1,98 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{ title }}</h4>
+  <button
+    type="button"
+    class="btn-close close pull-right"
+    aria-label="Close"
+    (click)="bsModalRef.hide()"
+  >
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="newTaskForm!" (ngSubmit)="createTask()">
+    <div class="mb-3">
+      <label class="form-label">Title</label>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Enter an optional title"
+        formControlName="title"
+      />
+      <div class="text-danger" *ngIf="newTaskForm!.controls['title'].invalid">
+        <span *ngIf="newTaskForm!.controls['title'].errors?.['maxlength']"
+          >Title length must be less than 32</span
+        >
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Description*</label>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Enter task description"
+        formControlName="description"
+      />
+      <div
+        class="text-danger"
+        *ngIf="
+          (newTaskForm!.controls['description'].invalid && isFormSubmitted) ||
+          newTaskForm!.controls['description'].touched
+        "
+      >
+        <span *ngIf="newTaskForm!.controls['description'].errors?.['required']"
+          >Description is required</span
+        >
+        <span *ngIf="newTaskForm!.controls['description'].errors?.['maxlength']"
+          >Description length must be less than 512</span
+        >
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Priority</label>
+      <select class="form-select" formControlName="priority">
+        <option value="0">Low</option>
+        <option value="1">Medium</option>
+        <option value="2">High</option>
+        <option value="3">Critical</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Deadline</label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="deadline"
+        bsDatepicker
+        placeholder="No deadline"
+        [bsConfig]="{
+          withTimepicker: true,
+          keepDatepickerOpened: true,
+          adaptivePosition: true,
+          dateInputFormat: 'DD MMM YYYY, HH:mm:ss',
+          containerClass: 'theme-green',
+          showTodayButton: true,
+          todayPosition: 'center'
+        }"
+        [minDate]="minDate"
+      />
+    </div>
+    <button type="submit" class="btn btn-success">Create task</button>
+  </form>
+  @if (validationErrors) {
+  <div class="alert alert-danger text-start mt-4">
+    <ul class="list-unstyled">
+      @for (error of validationErrors; track $index) {
+      <li>{{ error.Description }}</li>
+      }
+    </ul>
+  </div>
+  }
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">
+    {{ closeBtnName }}
+  </button>
+</div>

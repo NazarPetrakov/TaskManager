@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { AccountService } from './account.service';
 import { environment } from '../../environments/environment.development';
 import { Task } from '../models/Task';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -31,8 +31,11 @@ export class TaskService {
 
     return this.http.get<Task[]>(this.baseUrl + 'tasks', options);
   }
+  createTask(task: any){
+    return this.http.post<Task>(this.baseUrl + 'tasks', task)
+  }
   patchTask(taskId: number, patchDoc: any) {
-    return this.http.patch(this.baseUrl + 'tasks/' + taskId, patchDoc);
+    return this.http.patch(this.baseUrl + 'tasks/' + taskId, patchDoc)
   }
   deleteTask(taskId: number) {
     return this.http.delete(this.baseUrl + 'tasks/' + taskId);
