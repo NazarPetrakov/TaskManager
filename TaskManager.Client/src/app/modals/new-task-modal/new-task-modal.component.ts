@@ -9,8 +9,6 @@ import {
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { TaskService } from '../../_services/task.service';
-import { Task } from '../../models/Task';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-new-task-modal',
@@ -28,8 +26,6 @@ export class NewTaskModalComponent implements OnInit {
   validationErrors: any[] | undefined;
   title?: string;
   closeBtnName?: string;
-
-  onClose: Subject<Task> = new Subject();
 
   constructor(public bsModalRef: BsModalRef) {}
 
@@ -49,11 +45,34 @@ export class NewTaskModalComponent implements OnInit {
     this.isFormSubmitted = true;
     if (!this.newTaskForm?.invalid) {
       const date = this.formatDate(this.newTaskForm?.get('deadline')?.value);
-      let task = this.newTaskForm?.value;
-      task.deadline = date;
+      let task = { ...this.newTaskForm?.value, deadline: date };
+
       this.taskService.createTask(task).subscribe({
-        next: (task) => {
-          this.onClose.next(task);
+        next: (newTask) => {
+          this.taskService.taskCache.clear();
+          this.taskService.paginatedResult.update((paginated) => {
+            if (!paginated)
+              return {
+                items: [newTask],
+                pagination: {
+                  currentPage: 1,
+                  itemsPerPage: 15,
+                  totalItems: 1,
+                  totalPages: 1,
+                  hasPreviousPage: false,
+                  hasNextPage: false,
+                },
+              };
+            return {
+              ...paginated,
+              items: [newTask, ...(paginated.items ?? [])],
+              pagination: {
+                ...paginated.pagination!,
+                totalItems: (paginated.pagination?.totalItems ?? 0) + 1,
+              },
+            };
+          });
+
           this.bsModalRef.hide();
         },
         error: (errors) => {
@@ -63,8 +82,9 @@ export class NewTaskModalComponent implements OnInit {
       });
     }
   }
+
   formatDate(date?: Date) {
-    if(!date) return;
+    if (!date) return;
     return date.toISOString();
   }
 }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using TaskManager.API.Extensions;
 using TaskManager.Application.DTOs.Task;
 using TaskManager.Application.Helpers.QueryParams;
 using TaskManager.Application.IServices;
@@ -13,8 +14,14 @@ public class TasksController(ITaskService taskService) : BaseApiController
 {
     [HttpGet]
     public async Task<ActionResult<List<TaskDto>>> GetTasks(
-        [FromQuery] TaskQueryParams taskQueryParams) =>
-            await taskService.GetTasksAsync(taskQueryParams);
+        [FromQuery] TaskQueryParams taskQueryParams)
+    {
+        var pagedTaskList = await taskService.GetTasksAsync(taskQueryParams);
+
+        Response.AddPaginationHeader(pagedTaskList);
+
+        return Ok(pagedTaskList);
+    }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<TaskDto>> GetTaskById(int id) =>
@@ -23,9 +30,9 @@ public class TasksController(ITaskService taskService) : BaseApiController
     [HttpPost]
     public async Task<ActionResult<TaskDto>> CreateTask(CreateTaskDto task) =>
         await taskService.CreateTaskAsync(task, User);
-    
+
     [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteTask(int id) 
+    public async Task<ActionResult> DeleteTask(int id)
     {
         await taskService.DeleteTaskAsync(id);
         return Ok();
@@ -36,5 +43,4 @@ public class TasksController(ITaskService taskService) : BaseApiController
         await taskService.PatchTaskAsync(id, doc);
         return Ok();
     }
-        
 }

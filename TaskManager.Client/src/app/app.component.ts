@@ -3,11 +3,12 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AccountService } from './_services/account.service';
 import { User } from './models/User';
 import { NgxSpinnerComponent } from 'ngx-spinner';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, NgxSpinnerComponent],
+  imports: [RouterOutlet, RouterLink, NgxSpinnerComponent, InfiniteScrollModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -32,5 +33,8 @@ export class AppComponent implements OnInit {
   logout() {
     this.accountService.logout();
     this.router.navigateByUrl('');
+  }
+  onScroll() {
+    console.log('scrolled!!');
   }
 }

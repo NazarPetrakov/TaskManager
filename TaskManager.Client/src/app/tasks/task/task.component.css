@@ -1,4 +1,4 @@
-.dropdown-item{
+.dropdown-item {
   cursor: pointer;
 }
 .task-card {
@@ -33,6 +33,7 @@
   border: 3px solid #510668;
   border-bottom: none;
   font-size: 1em; /* Use em for font size */
+  overflow-wrap: anywhere;
 }
 
 .status {
@@ -98,4 +99,3 @@
   color: var(--bs-light) !important;
   opacity: 0.5;
 }
-

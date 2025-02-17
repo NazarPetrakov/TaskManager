@@ -1,13 +1,9 @@
 @if(tasks()){
 <div class="container">
   @for (task of tasks(); track task.id ) {
-  <app-task
-    [task]="task"
-    (onDelete)="onDeleteTask($event)"
-    (onChangeTask)="onChangeTask($event)"
-  ></app-task>
+  <app-task [task]="task"></app-task>
   }
 </div>
 }@else {
-  <h2>No tasks</h2>
+<h2>No tasks</h2>
 }

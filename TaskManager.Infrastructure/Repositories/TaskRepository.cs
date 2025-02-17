@@ -2,6 +2,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using TaskManager.Application.DTOs.Task;
+using TaskManager.Application.Helpers.Pagination;
 using TaskManager.Application.Helpers.QueryParams;
 using TaskManager.Application.IRepositories;
 using TaskManager.Domain.Entities;
@@ -9,7 +10,7 @@ using TaskManager.Infrastructure.Data;
 
 namespace TaskManager.Infrastructure.Repositories;
 
-public class TaskRepository(AppDbContext context, IMapper mapper) : ITaskRepository
+public class TaskRepository(AppDbContext context) : ITaskRepository
 {
     public async Task CreateTaskAsync(AppTask task)
     {
@@ -27,24 +28,32 @@ public class TaskRepository(AppDbContext context, IMapper mapper) : ITaskReposit
     {
         return await context.Tasks.FirstOrDefaultAsync(td => td.Id == id);
     }
-    public async Task<List<TaskDto>> GetTasksAsync(TaskQueryParams taskQueryParams)
+    public async Task<PagedList<AppTask>> GetTasksAsync(TaskQueryParams taskQueryParams)
     {
-        var query = context.Tasks.ProjectTo<TaskDto>(mapper.ConfigurationProvider);
+        var query = context.Tasks.AsNoTracking();
+            // .ProjectTo<TaskDto>(mapper.ConfigurationProvider);
 
         if (taskQueryParams.UserId.HasValue)
-        {
             query = query.Where(td => td.UserId == taskQueryParams.UserId.Value);
-        }
+
         if (taskQueryParams.Status.HasValue)
-        {
             query = query.Where(td => td.Status == taskQueryParams.Status.Value);
-        }
+            
         if (taskQueryParams.ExcludeStatus.HasValue)
-        {
             query = query.Where(td => td.Status != taskQueryParams.ExcludeStatus.Value);
+
+        if (!string.IsNullOrEmpty(taskQueryParams.OrderBy))
+        {
+            query = taskQueryParams.OrderBy.ToLower() switch
+            {
+                "createdat_desc" => query.OrderByDescending(x => x.CreatedAt),
+                "createdat" or "createdat_asc" => query.OrderBy(x => x.CreatedAt),
+                _ => query.OrderBy(x => x.CreatedAt) 
+            };
         }
 
-        return await query.ToListAsync();
+        return await PagedList<AppTask>.PaginateAsync(query,
+            taskQueryParams.PageNumber, taskQueryParams.PageSize);
     }
     public async Task<bool> SaveChangesAsync()
     {

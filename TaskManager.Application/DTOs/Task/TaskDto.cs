@@ -11,7 +11,7 @@ public class TaskDto
     public ProgressStatus Status { get; set; } = ProgressStatus.NotStarted;
     public PriorityLevel Priority { get; set; } = PriorityLevel.Low;
     public DateTime? DeadLine { get; set; }
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAt { get; set; }
     public DateTime? CompletedAt { get; set; }
     public int UserId { get; set; }
 }

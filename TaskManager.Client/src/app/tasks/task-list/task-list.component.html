@@ -14,24 +14,40 @@
   </div>
   <tabset class="task-tabset">
     <tab heading="To Do" [active]="true" (selectTab)="loadTodoTasks()">
-      @if (loading()) {} @else if (isToDo) {
-      <tasks-container
-        [tasks]="tasks()"
-        (onDelete)="deleteTask($event)"
-        (ChangeTask)="changeTask($event)"
-      ></tasks-container>
+      @if (loading()) {} @else if ((taskService.paginatedResult()?.items ??
+      []).length > 0) {
+      <div
+        class="tasks-scroll-container"
+        infiniteScroll
+        [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="150"
+        [scrollWindow]="false"
+        (scrolled)="onScroll()"
+      >
+        <tasks-container
+          [tasks]="taskService.paginatedResult()?.items"
+        ></tasks-container>
+      </div>
       } @else {
       <h2>No task to do</h2>
       }
     </tab>
 
     <tab heading="Complete" (selectTab)="loadCompleteTasks()">
-      @if (loading()) {} @else if (isCompleted) {
-      <tasks-container
-        [tasks]="tasks()"
-        (onDelete)="deleteTask($event)"
-        (ChangeTask)="changeTask($event)"
-      ></tasks-container>
+      @if (loading()) {} @else if ((taskService.paginatedResult()?.items ??
+      []).length > 0) {
+      <div
+        class="tasks-scroll-container"
+        infiniteScroll
+        [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="150"
+        [scrollWindow]="false"
+        (scrolled)="onScroll()"
+      >
+        <tasks-container
+          [tasks]="taskService.paginatedResult()?.items"
+        ></tasks-container>
+      </div>
       } @else {
       <h2>No completed tasks</h2>
       }

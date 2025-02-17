@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using TaskManager.Application.DTOs.Task;
 using TaskManager.Application.Exceptions;
 using TaskManager.Application.Extensions;
+using TaskManager.Application.Helpers.Pagination;
 using TaskManager.Application.Helpers.QueryParams;
 using TaskManager.Application.IRepositories;
 using TaskManager.Application.IServices;
@@ -65,9 +66,18 @@ public class TaskService(ITaskRepository taskRepository,
         return mapper.Map<TaskDto>(task);
 
     }
-
-    public async Task<List<TaskDto>> GetTasksAsync(TaskQueryParams taskQueryParams)
+    public async Task<PagedList<TaskDto>> GetTasksAsync(TaskQueryParams taskQueryParams)
     {
-        return await taskRepository.GetTasksAsync(taskQueryParams);
+        var pagedTasks = await taskRepository.GetTasksAsync(taskQueryParams);
+
+        var taskDtos = mapper.Map<List<TaskDto>>(pagedTasks);
+
+        return new PagedList<TaskDto>
+        (
+            taskDtos,
+            pagedTasks.TotalCount,
+            pagedTasks.CurrentPage,
+            pagedTasks.PageSize
+        );
     }
 }

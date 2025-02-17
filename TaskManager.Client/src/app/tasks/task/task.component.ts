@@ -1,7 +1,6 @@
 import {
   Component,
   ElementRef,
-  HostListener,
   inject,
   input,
   OnInit,
@@ -22,13 +21,11 @@ import {
 import { CommonModule } from '@angular/common';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TaskService } from '../../_services/task.service';
-import {
-  BsDatepickerDirective,
-  BsDatepickerModule,
-} from 'ngx-bootstrap/datepicker';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FormsModule } from '@angular/forms';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ConfirmModalComponent } from '../../modals/confirm-modal/confirm-modal.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-task',
@@ -40,14 +37,12 @@ import { ConfirmModalComponent } from '../../modals/confirm-modal/confirm-modal.
 export class TaskComponent implements OnInit {
   @ViewChild('editInput') editInput!: ElementRef;
   private taskService = inject(TaskService);
+  private toastr = inject(ToastrService);
   minDate: Date;
   bsModalRef?: BsModalRef;
   progressStatus = ProgressStatus;
   priorityLevel = PriorityLevel;
   task = input<Task | undefined>();
-  onDelete = output<number>();
-
-  onChangeTask = output<[number, Task]>();
 
   date?: Date;
   isEditing = false;
@@ -62,67 +57,45 @@ export class TaskComponent implements OnInit {
   getPriorityClass = getPriorityClass;
 
   ngOnInit(): void {
-    this.getTaskData();
+    this.getTaskDate();
   }
 
-  getTaskData() {
+  getTaskDate() {
     const taskData = this.task();
     if (taskData && taskData.deadLine) {
       this.date = new Date(taskData.deadLine);
     }
   }
   updateDate() {
-    let patchDoc: any;
-
-    if (this.date) {
-      const patchDate = this.date.toISOString();
-      patchDoc = [{ op: 'replace', path: '/deadline', value: patchDate }];
+    if (!this.date) {
+      this.updateTask([{ op: 'replace', path: '/deadline', value: null }]);
     } else {
-      patchDoc = [{ op: 'replace', path: '/deadline' }];
-    }
-
-    if (this.task()) {
-      this.taskService.patchTask(this.task()!.id, patchDoc).subscribe();
+      this.updateTask([
+        { op: 'replace', path: '/deadline', value: this.date.toISOString() },
+      ]);
     }
   }
   changeStatus(status: ProgressStatus) {
-    const task = this.task();
-    if (!task) return;
-
     const patchDoc: { op: 'replace'; path: string; value: any }[] = [
       { op: 'replace', path: '/status', value: status },
     ];
 
-    let updatedTask: Task = { ...task, status };
-
     if (status === ProgressStatus.Done) {
-      const completedAt = new Date();
       patchDoc.push({
         op: 'replace',
         path: '/completedAt',
-        value: completedAt.toISOString(),
+        value: new Date().toISOString(),
       });
-      updatedTask = { ...updatedTask, completedAt };
-    } else if (task.status === ProgressStatus.Done) {
+    } else {
       patchDoc.push({ op: 'replace', path: '/completedAt', value: null });
-      updatedTask = { ...updatedTask, completedAt: undefined };
     }
 
-    this.taskService.patchTask(task.id, patchDoc).subscribe({
-      next: () => this.onChangeTask.emit([task.id, updatedTask]),
-    });
+    this.updateTask(patchDoc);
   }
   changePriority(priority: PriorityLevel) {
-    const task = this.task();
-    if (!task) return;
-
-    let updatedTask: Task = { ...task, priority };
-
-    const patchDoc = [{ op: 'replace', path: '/priority', value: priority }];
-    this.taskService.patchTask(task.id, patchDoc).subscribe({
-      next: () => this.onChangeTask.emit([task.id, updatedTask]),
-    });
+    this.updateTask([{ op: 'replace', path: '/priority', value: priority }]);
   }
+
   deleteTask(): void {
     const options: ModalOptions = {
       initialState: {
@@ -136,29 +109,34 @@ export class TaskComponent implements OnInit {
     this.bsModalRef.onHidden?.subscribe(() => {
       if (this.task() && this.bsModalRef?.content.confirmed) {
         this.taskService.deleteTask(this.task()!.id).subscribe({
-          next: () => this.onDelete.emit(this.task()!.id),
+          next: () => {
+            this.taskService.taskCache.clear();
+            this.taskService.paginatedResult.update((paginated) => {
+              if (!paginated) return paginated;
+              return {
+                ...paginated,
+                items: paginated.items?.filter((t) => t.id !== this.task()!.id),
+              };
+            });
+          },
         });
       }
     });
   }
   saveDescription() {
-    const task = this.task();
-    if (!task) return;
+    const trimmedDescription = this.updatedDescription.trim();
 
-    const updatedTask = { ...task, description: this.updatedDescription.trim() };
-
-    const patchDoc = [
-        { op: 'replace', path: '/description', value: updatedTask.description },
-    ];
-
-    if(task.description !== updatedTask.description){
-      this.taskService.patchTask(task.id, patchDoc).subscribe({
-        next: () => this.onChangeTask.emit([task.id, updatedTask]),
-    });
+    if (trimmedDescription.length > 512) {
+      this.toastr.error('Description cannot be longer than 512 characters.');
+      return;
     }
 
+    this.updateTask([
+      { op: 'replace', path: '/description', value: trimmedDescription },
+    ]);
     this.isEditing = false;
   }
+
   enableEdit() {
     this.isEditing = true;
     this.updatedDescription = this.task()!.description;
@@ -168,5 +146,31 @@ export class TaskComponent implements OnInit {
   }
   discardEdit() {
     this.isEditing = false;
+  }
+  
+  private updateTask(patchDoc: { op: 'replace'; path: string; value: any }[]) {
+    const task = this.task();
+    if (!task) return;
+
+    const updatedTask = patchDoc.reduce(
+      (updated, patch) => {
+        return { ...updated, [patch.path.replace('/', '')]: patch.value };
+      },
+      { ...task }
+    );
+
+    this.taskService.patchTask(task.id, patchDoc).subscribe({
+      next: () => {
+        this.taskService.paginatedResult.update((paginated) => {
+          if (!paginated) return paginated;
+          return {
+            ...paginated,
+            items: paginated.items?.map((t) =>
+              t.id === task.id ? { ...t, ...updatedTask } : t
+            ),
+          };
+        });
+      },
+    });
   }
 }

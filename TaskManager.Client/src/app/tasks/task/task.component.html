@@ -10,7 +10,7 @@
         <span *ngIf="!isEditing">{{ task()?.description }}</span>
 
         <!-- Show input when editing -->
-        <input
+        <textarea
           *ngIf="isEditing"
           #editInput
           type="text"
@@ -19,11 +19,12 @@
           [(ngModel)]="updatedDescription"
           (keyup.enter)="saveDescription()"
           (keyup.esc)="discardEdit()"
-        />
+        ></textarea>
+
         <!-- Edit icon -->
         <i
           *ngIf="!isEditing"
-          class="fa-solid fa-pen-to-square fa-lg"
+          class="fa-solid fa-pen-to-square fa-lg ms-3"
           style="cursor: pointer"
           (click)="enableEdit()"
         ></i>
@@ -38,7 +39,6 @@
       <div class="d-flex task-props">
         <div class="col-4 btn-group" dropdown>
           <button
-            id="button-basic"
             dropdownToggle
             type="button"
             class="btn dropdown-toggle rounded-0"
@@ -48,7 +48,6 @@
             {{ getStatus(task()?.status) }} <span class="caret"></span>
           </button>
           <ul
-            id="dropdown-basic"
             *dropdownMenu
             class="dropdown-menu"
             role="menu"

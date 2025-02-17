@@ -1,3 +1,8 @@
 ::ng-deep .tooltip-inner {
-    opacity: 0.9;
-  }
+  opacity: 0.9;
+}
+.tasks-scroll-container {
+  max-height: 75vh;
+  overflow-y: auto;
+  background-color: white;
+}
