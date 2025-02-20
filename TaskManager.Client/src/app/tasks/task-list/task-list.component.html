@@ -6,6 +6,7 @@
     <button
       class="btn btn-success ms-3"
       tooltip="Create new task"
+      #pop="bs-tooltip"
       placement="right"
       (click)="openNewTaskModal()"
     >
@@ -18,9 +19,10 @@
       []).length > 0) {
       <div
         class="tasks-scroll-container"
+        style="padding-bottom: 100px;"
         infiniteScroll
-        [infiniteScrollDistance]="2"
-        [infiniteScrollThrottle]="150"
+        [infiniteScrollDistance]="0.3"
+        [infiniteScrollThrottle]="350"
         [scrollWindow]="false"
         (scrolled)="onScroll()"
       >
@@ -38,9 +40,10 @@
       []).length > 0) {
       <div
         class="tasks-scroll-container"
+        style="padding-bottom: 100px;"
         infiniteScroll
-        [infiniteScrollDistance]="2"
-        [infiniteScrollThrottle]="150"
+        [infiniteScrollDistance]="0.3"
+        [infiniteScrollThrottle]="350"
         [scrollWindow]="false"
         (scrolled)="onScroll()"
       >

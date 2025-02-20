@@ -60,8 +60,18 @@ export class TaskService {
       .get<Task[]>(this.baseUrl + 'tasks', { observe: 'response', params })
       .pipe(
         tap((response) => {
-          setPaginationResponse(response, this.paginatedResult);
-          this.taskCache.set(cacheKey, response);
+          const currentPage = this.taskParams().pageNumber;
+
+          if (currentPage > 1) {
+            this.paginatedResult.update((prev) => ({
+              items: [...(prev?.items ?? []), ...(response.body ?? [])], 
+              pagination: JSON.parse(response.headers.get('Pagination')!), 
+            }));
+          } else {
+            setPaginationResponse(response, this.paginatedResult);
+            this.taskCache.set(cacheKey, response);
+          }
+          
         })
       );
   }

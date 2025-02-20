@@ -1,5 +1,4 @@
 import { ProgressStatus } from "../_helpers/enums/progressStatus";
-import { AppUser } from "./AppUser";
 import { User } from "./User";
 
 export class TaskParams{
