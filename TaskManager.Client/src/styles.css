@@ -17,89 +17,77 @@ li {
 
 h1 {
   font-weight: 600;
-  font-size: 2.5rem;
+  font-size: 2.0rem;
 }
 
 body {
   font-family: "Poppins", sans-serif;
 }
-/* Стилізація для контейнера вкладок */
 .task-tabset > .nav-tabs {
   display: flex;
-  justify-content: center; /* Центрує вкладки по горизонталі */
+  justify-content: center; 
   padding: 0;
   margin: 0;
 }
 
-/* Стилізація для елементів вкладок */
 .task-tabset > .nav-tabs > li {
-  margin-right: 20px; /* Відступи між вкладками */
-  transition: all 0.1s ease; /* Плавний перехід для ефектів */
+  margin-right: 20px;
+  transition: all 0.1s ease;
   font-size: 1.1rem;
 }
 
-/* Ефекти при наведенні на вкладки */
 .task-tabset > .nav-tabs > li:hover {
-  border-bottom: 4px solid #000000; /* Чорний колір при ховері */
+  border-bottom: 4px solid #000000; 
 }
 
-/* Стилізація для відкритих вкладок (якщо є випадаючі меню) */
 .task-tabset > .nav-tabs > li.open > a {
   border: 0;
   background: none !important;
-  color: #510668; /* Яскраво червоний колір */
+  color: #510668; 
 }
 
-/* Стилізація для вкладок при ховері */
 .task-tabset > .nav-tabs > li:hover > a {
   border: 0;
   background: none !important;
-  color: #510668; /* Яскраво червоний колір */
+  color: #510668; 
 }
 
-/* Іконки вкладок при ховері та відкритті */
 .task-tabset > .nav-tabs > li.open > a > i,
 .task-tabset > .nav-tabs > li:hover > a > i {
-  color: #510668; /* Теплий рожевий */
+  color: #510668;
 }
 
-/* Стилізація для випадаючих меню (якщо є) */
 .task-tabset > .nav-tabs > li.open .dropdown-menu,
 .task-tabset > .nav-tabs > li:hover .dropdown-menu {
   margin-top: 0;
 }
 
-/* Стилізація активної вкладки */
 .task-tabset > .nav-tabs > li.active {
-  border-bottom: 4px solid #510668; /* Фіолетовий колір для активної вкладки */
+  border-bottom: 4px solid #510668; 
   position: relative;
 }
 
-/* Стилізація для активних вкладок */
 .task-tabset > .nav-tabs > li.active > a {
   border: 0 !important;
-  color: #ffffff; /* Білий колір для активної вкладки */
-  background-color: #510668; /* Фіолетовий фон активної вкладки */
-  font-weight: bold; /* Робимо текст жирним для акценту */
+  color: #ffffff; 
+  background-color: #510668; 
+  font-weight: bold; 
 }
 
-/* Ефекти для активної вкладки при ховері */
 .task-tabset > .nav-tabs > li.active:hover > a,
 .task-tabset > .nav-tabs > li.active > a:hover {
-  color: #510668; /* Легкий фіолетовий при ховері */
+  color: #510668; 
   background: none !important;
 }
 
-/* Іконки активної вкладки */
 .task-tabset > .nav-tabs > li.active > a > i {
-  color: #ffffff; /* Білий для іконки на активній вкладці */
+  color: #ffffff;
 }
 
-/* Контент вкладок */
 .task-tabset > .tab-content {
-  margin-top: -3px;
+  margin-top: -5px;
   border: 0;
   border-top: 1px solid #eee;
   padding: 15px 0;
-  background-color: #fafafa; /* Світло-сірий фон для контенту вкладок */
+  background-color: white; 
 }

@@ -1,7 +1,4 @@
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
-using TaskManager.Application.DTOs.Task;
 using TaskManager.Application.Helpers.Pagination;
 using TaskManager.Application.Helpers.QueryParams;
 using TaskManager.Application.IRepositories;
@@ -31,7 +28,6 @@ public class TaskRepository(AppDbContext context) : ITaskRepository
     public async Task<PagedList<AppTask>> GetTasksAsync(TaskQueryParams taskQueryParams)
     {
         var query = context.Tasks.AsNoTracking();
-        // .ProjectTo<TaskDto>(mapper.ConfigurationProvider);
 
         if (taskQueryParams.UserId.HasValue)
             query = query.Where(td => td.UserId == taskQueryParams.UserId.Value);
@@ -49,7 +45,8 @@ public class TaskRepository(AppDbContext context) : ITaskRepository
                 "createdat_desc" => query.OrderByDescending(x => x.CreatedAt),
                 "createdat" or "createdat_asc" => query.OrderBy(x => x.CreatedAt),
                 "deadline_desc" => query.OrderByDescending(x => x.DeadLine),
-                "deadline" or "deadline_asc" => query.OrderBy(x => x.DeadLine),
+                "deadline" or "deadline_asc" => query.OrderBy(x => x.DeadLine == null)
+                    .ThenBy(x => x.DeadLine),
                 "priority_desc" => query.OrderByDescending(x => x.Priority),
                 "priority" or "priority_asc" => query.OrderBy(x => x.Priority),
                 _ => query.OrderBy(x => x.CreatedAt)

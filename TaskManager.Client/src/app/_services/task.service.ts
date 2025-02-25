@@ -1,5 +1,5 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { effect, inject, Injectable, signal } from '@angular/core';
 import { AccountService } from './account.service';
 import { environment } from '../../environments/environment.development';
 import { Task } from '../models/Task';
@@ -18,13 +18,26 @@ export class TaskService {
   private http = inject(HttpClient);
   private baseUrl = environment.baseUrl;
   private accountService = inject(AccountService);
-  user = this.accountService.currentUser();
   taskCache = new Map();
   paginatedResult = signal<PaginatedResult<Task[]> | null>(null);
-  taskParams = signal<TaskParams>(new TaskParams(this.user));
+  taskParams = signal<TaskParams>(
+    new TaskParams(this.accountService.currentUser())
+  );
+
+  constructor() {
+    effect(
+      () => {
+        if (!this.accountService.currentUser()) {
+          this.taskCache.clear();
+          this.paginatedResult.set(null);
+        }
+      },
+      { allowSignalWrites: true }
+    );
+  }
 
   resetParams() {
-    this.taskParams.set(new TaskParams(this.user));
+    this.taskParams.set(new TaskParams(this.accountService.currentUser()));
   }
   getCurrentUserTasks() {
     const currentUser = this.accountService.currentUser();
@@ -64,14 +77,13 @@ export class TaskService {
 
           if (currentPage > 1) {
             this.paginatedResult.update((prev) => ({
-              items: [...(prev?.items ?? []), ...(response.body ?? [])], 
-              pagination: JSON.parse(response.headers.get('Pagination')!), 
+              items: [...(prev?.items ?? []), ...(response.body ?? [])],
+              pagination: JSON.parse(response.headers.get('Pagination')!),
             }));
           } else {
             setPaginationResponse(response, this.paginatedResult);
             this.taskCache.set(cacheKey, response);
           }
-          
         })
       );
   }
