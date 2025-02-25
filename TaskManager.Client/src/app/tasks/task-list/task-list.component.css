@@ -6,3 +6,10 @@
   overflow-y: auto;
   background-color: white;
 }
+.active-sort {
+  font-weight: bold;
+  color: #a600ff; /* Bootstrap primary color */
+}
+.order > div:hover{
+  transform: scale(1.02);
+}

@@ -7,6 +7,7 @@ import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { NewTaskModalComponent } from '../../modals/new-task-modal/new-task-modal.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ProgressStatus } from '../../_helpers/enums/progressStatus';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-task-list',
@@ -16,6 +17,7 @@ import { ProgressStatus } from '../../_helpers/enums/progressStatus';
     TasksContainerComponent,
     TooltipModule,
     InfiniteScrollModule,
+    CommonModule,
   ],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.css',
@@ -29,6 +31,12 @@ export class TaskListComponent implements OnInit {
   loading = signal<boolean>(false);
   selectedToDoTab = true;
   pageNumber = 1;
+  orderToggles = {
+    createdAt: true,
+    deadline: false,
+    priority: true,
+  };
+  sortedBy = 'createdAt';
 
   constructor(private modalService: BsModalService) {}
 
@@ -90,6 +98,23 @@ export class TaskListComponent implements OnInit {
       error: () => this.loading.set(false),
       complete: () => this.loading.set(false),
     });
+  }
+
+  orderBy(field: 'createdAt' | 'deadline' | 'priority') {
+    if (this.isSortedBy(field)) {
+      this.orderToggles[field] = !this.orderToggles[field];
+    }
+    const isDescending = this.orderToggles[field];
+    this.taskService.taskParams.update((params) => {
+      params.pageNumber = 1;
+      params.orderBy = isDescending ? `${field}_desc` : field;
+      return params;
+    });
+    this.taskService.getCurrentUserTasks().subscribe();
+    this.sortedBy = field;
+  }
+  isSortedBy(field: 'createdAt' | 'deadline' | 'priority') {
+    return this.sortedBy === field;
   }
   openNewTaskModal() {
     const initialState: ModalOptions = {

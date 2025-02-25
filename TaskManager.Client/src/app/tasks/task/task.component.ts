@@ -38,7 +38,6 @@ export class TaskComponent implements OnInit {
   @ViewChild('editInput') editInput!: ElementRef;
   private taskService = inject(TaskService);
   private toastr = inject(ToastrService);
-  minDate: Date;
   bsModalRef?: BsModalRef;
   progressStatus = ProgressStatus;
   priorityLevel = PriorityLevel;
@@ -49,7 +48,6 @@ export class TaskComponent implements OnInit {
   updatedDescription: string = '';
 
   constructor(private modalService: BsModalService) {
-    this.minDate = new Date();
   }
   getPriority = getPriorityLevelLabel;
   getStatus = getProgressStatusLabel;
