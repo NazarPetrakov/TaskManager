@@ -2,37 +2,37 @@
   cursor: pointer;
 }
 .task-card {
-  width: 80%; /* Use percentage for flexibility */
-  max-width: 1100px; /* Set a maximum width for larger screens */
-  margin: 0 auto; /* Center the card */
+  width: 80%; 
+  max-width: 1100px;
+  margin: 0 auto; 
   padding: 0;
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  box-sizing: border-box; 
 }
 
 .task-props {
   display: flex;
-  align-items: stretch; /* Ensure children stretch to full height */
+  align-items: stretch; 
   border: 3px solid #510668;
 }
 
 .task-title {
-  padding: 0.5em 1em; /* Use em for padding */
+  padding: 0.5em 1em; 
   display: inline-block;
   border: 3px solid #510668;
   background-color: #510668;
   color: white;
   border-bottom: none;
   border-radius: 15px 25px 0px 0px;
-  font-size: 1.2em; /* Use em for font size */
+  font-size: 1.2em; 
 }
 
 .task-desc {
   padding: 1em;
-  line-height: 1.5; /* Improve line height for readability */
+  line-height: 1.5; 
   width: 100%;
   border: 3px solid #510668;
   border-bottom: none;
-  font-size: 1em; /* Use em for font size */
+  font-size: 1em; 
   overflow-wrap: anywhere;
 }
 
@@ -41,14 +41,14 @@
   font-weight: bold;
   padding: 0.5em;
   text-align: center;
-  flex: 1; /* Ensure each status div takes equal space */
+  flex: 1; 
   display: flex;
-  align-items: center; /* Center text vertically */
-  justify-content: center; /* Center text horizontally */
-  overflow: hidden; /* Prevent text overflow */
-  white-space: nowrap; /* Prevent text wrapping */
-  text-overflow: ellipsis; /* Add ellipsis for overflow text */
-  font-size: 1em; /* Use em for font size */
+  align-items: center; 
+  justify-content: center; 
+  overflow: hidden; 
+  white-space: nowrap;
+  text-overflow: ellipsis; 
+  font-size: 1em; 
 }
 
 .trash-container {
@@ -63,21 +63,19 @@
 .task-card i:hover {
   transform: scale(1.1);
 }
-/* Ensure Bootstrap dropdown styles are not overridden */
 .btn-group {
-  position: relative; /* Required for dropdown positioning */
+  position: relative; 
 }
 
 .dropdown-menu {
-  position: absolute; /* Required for dropdown positioning */
-  top: 100%; /* Position the dropdown below the button */
+  position: absolute; 
+  top: 100%; 
   left: 0;
-  z-index: 1000; /* Ensure dropdown appears above other elements */
-  display: none; /* Hide by default (Bootstrap will handle toggling) */
+  z-index: 1000;
+  display: none; 
 }
-
 .dropdown-menu.show {
-  display: block; /* Show the dropdown when toggled */
+  display: block; 
 }
 
 .date-input {
@@ -94,8 +92,11 @@
   transform: scale(1.05);
   color: var(--bs-primary) !important;
 }
-/* Fix placeholder color */
 .date-input::placeholder {
   color: var(--bs-light) !important;
   opacity: 0.5;
 }
+.fa-solid {
+  font-size: 1.1rem;
+}
+

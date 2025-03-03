@@ -18,6 +18,7 @@
     <div
       class="d-flex justify-content-start gap-3 py-2 order"
       style="margin: 0 150px;"
+      *ngIf="taskStateService.selectedToDoTab()"
     >
       <div
         (click)="orderBy('createdAt')"
@@ -67,7 +68,7 @@
         ></i>
       </div>
     </div>
-    <tab heading="To Do" [active]="true" (selectTab)="loadTodoTasks()">
+    <tab heading="To Do" [active]="taskStateService.selectedToDoTab()" (selectTab)="loadTodoTasks()">
       @if (loading()) {} @else if ((taskService.paginatedResult()?.items ??
       []).length > 0) {
       <div
@@ -88,7 +89,7 @@
       }
     </tab>
 
-    <tab heading="Complete" (selectTab)="loadCompleteTasks()">
+    <tab heading="Complete" [active]="!taskStateService.selectedToDoTab()" (selectTab)="loadCompleteTasks()">
       @if (loading()) {} @else if ((taskService.paginatedResult()?.items ??
       []).length > 0) {
       <div

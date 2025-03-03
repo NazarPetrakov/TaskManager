@@ -1,0 +1,17 @@
+.profile-card {
+  max-width: 100%;
+  background: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.profile-card p {
+  word-wrap: break-word; 
+  overflow-wrap: break-word; 
+  white-space: normal; 
+  max-width: 90%; 
+}
+

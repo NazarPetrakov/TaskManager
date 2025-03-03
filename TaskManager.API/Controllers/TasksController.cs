@@ -43,4 +43,11 @@ public class TasksController(ITaskService taskService) : BaseApiController
         await taskService.PatchTaskAsync(id, doc);
         return Ok();
     }
+    [HttpGet("stats")]
+    public async Task<ActionResult> GetTaskStats()
+    {
+        var stats = await taskService.GetTaskStatistics(User);
+        return Ok(stats);
+    }
+
 }

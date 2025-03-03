@@ -8,6 +8,7 @@ import { NewTaskModalComponent } from '../../modals/new-task-modal/new-task-moda
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ProgressStatus } from '../../_helpers/enums/progressStatus';
 import { CommonModule } from '@angular/common';
+import { TaskStateService } from '../../_services/task-state.service';
 
 @Component({
   selector: 'app-task-list',
@@ -25,11 +26,11 @@ import { CommonModule } from '@angular/common';
 export class TaskListComponent implements OnInit {
   @ViewChild('pop', { static: false }) tooltip!: TooltipDirective;
   taskService = inject(TaskService);
+  taskStateService = inject(TaskStateService);
   bsModalRef?: BsModalRef;
   isToDo: boolean = false;
   isCompleted: boolean = false;
   loading = signal<boolean>(false);
-  selectedToDoTab = true;
   pageNumber = 1;
   orderToggles = {
     createdAt: true,
@@ -62,7 +63,7 @@ export class TaskListComponent implements OnInit {
     }
   }
   loadTodoTasks() {
-    this.selectedToDoTab = true;
+    this.taskStateService.selectedToDoTab.set(true);
     this.loading.set(true);
     this.taskService.resetParams();
 
@@ -81,7 +82,7 @@ export class TaskListComponent implements OnInit {
     });
   }
   loadCompleteTasks() {
-    this.selectedToDoTab = false;
+    this.taskStateService.selectedToDoTab.set(false);
     this.loading.set(true);
     this.taskService.resetParams();
 

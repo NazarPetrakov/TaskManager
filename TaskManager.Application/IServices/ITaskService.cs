@@ -14,4 +14,5 @@ public interface ITaskService
     Task<TaskDto> CreateTaskAsync(CreateTaskDto createTask, ClaimsPrincipal claimsPrincipalUser);
     Task DeleteTaskAsync(int taskId);
     Task PatchTaskAsync(int taskId, JsonPatchDocument<AppTask> doc);
+    Task<TaskStatDto> GetTaskStatistics(ClaimsPrincipal user);
 }

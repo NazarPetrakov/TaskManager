@@ -10,6 +10,7 @@ import {
   setPaginationHeaders,
   setPaginationResponse,
 } from '../_helpers/paginationHelper';
+import { TaskStats } from '../models/TaskStats';
 
 @Injectable({
   providedIn: 'root',
@@ -99,5 +100,8 @@ export class TaskService {
   }
   deleteTask(taskId: number) {
     return this.http.delete(this.baseUrl + 'tasks/' + taskId);
+  }
+  getTaskStatistics() {
+    return this.http.get<TaskStats>(this.baseUrl + 'tasks/stats');
   }
 }

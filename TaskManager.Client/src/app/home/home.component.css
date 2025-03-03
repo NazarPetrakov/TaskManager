@@ -1,0 +1,7 @@
+.hover-card:hover {
+  transform: scale(1.01);
+  cursor: pointer;
+}
+.hover-card{
+    max-width: 340px;
+}

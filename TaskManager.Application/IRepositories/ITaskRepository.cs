@@ -11,6 +11,7 @@ public interface ITaskRepository
     Task CreateTaskAsync(AppTask task);
     void DeleteTask(AppTask task);
     void UpdateTask(AppTask task);
+    Task<TaskStat> GetTaskStatsAsync(int userId);
     Task<bool> SaveChangesAsync();
 
 }

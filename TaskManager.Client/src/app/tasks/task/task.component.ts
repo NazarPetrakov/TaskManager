@@ -26,11 +26,19 @@ import { FormsModule } from '@angular/forms';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ConfirmModalComponent } from '../../modals/confirm-modal/confirm-modal.component';
 import { ToastrService } from 'ngx-toastr';
+import { TaskStateService } from '../../_services/task-state.service';
+import { MomentModule } from 'ngx-moment';
 
 @Component({
   selector: 'app-task',
   standalone: true,
-  imports: [BsDatepickerModule, CommonModule, BsDropdownModule, FormsModule],
+  imports: [
+    BsDatepickerModule,
+    CommonModule,
+    BsDropdownModule,
+    FormsModule,
+    MomentModule,
+  ],
   templateUrl: './task.component.html',
   styleUrl: './task.component.css',
 })
@@ -38,6 +46,7 @@ export class TaskComponent implements OnInit {
   @ViewChild('editInput') editInput!: ElementRef;
   private taskService = inject(TaskService);
   private toastr = inject(ToastrService);
+  taskStateService = inject(TaskStateService);
   bsModalRef?: BsModalRef;
   progressStatus = ProgressStatus;
   priorityLevel = PriorityLevel;
@@ -47,8 +56,8 @@ export class TaskComponent implements OnInit {
   isEditing = false;
   updatedDescription: string = '';
 
-  constructor(private modalService: BsModalService) {
-  }
+  constructor(private modalService: BsModalService) {}
+
   getPriority = getPriorityLevelLabel;
   getStatus = getProgressStatusLabel;
   getStatusClass = getStatusClass;
@@ -65,13 +74,13 @@ export class TaskComponent implements OnInit {
     }
   }
   updateDate() {
-    if (!this.date) {
-      this.updateTask([{ op: 'replace', path: '/deadline', value: null }]);
-    } else {
-      this.updateTask([
-        { op: 'replace', path: '/deadline', value: this.date.toISOString() },
-      ]);
-    }
+    if (!this.task()) return;
+
+    const updatedDeadline = this.date ? this.date.toISOString() : null;
+
+    this.updateTask([
+      { op: 'replace', path: '/deadLine', value: updatedDeadline },
+    ]);
   }
   changeStatus(status: ProgressStatus) {
     const patchDoc: { op: 'replace'; path: string; value: any }[] = [
@@ -145,7 +154,39 @@ export class TaskComponent implements OnInit {
   discardEdit() {
     this.isEditing = false;
   }
-  
+
+  getDeadlineClass(): { [key: string]: boolean } {
+    const task = this.task();
+    if (!task?.deadLine) return {};
+
+    const now = new Date();
+    const deadlineDate = new Date(task.deadLine);
+
+    const timeDiff = deadlineDate?.getTime() - now.getTime();
+    const hoursLeft = timeDiff / (1000 * 60 * 60);
+
+    return {
+      'fa-clock text-success': hoursLeft >= 24,
+      'fa-hourglass-half text-warning': hoursLeft > 0 && hoursLeft < 24,
+      'fa-triangle-exclamation text-danger': timeDiff < 0,
+    };
+  }
+  getCompletedMoment() {
+    const task = this.task();
+    if (!task || !task.completedAt || !task.createdAt) {
+      return;
+    }
+    const completedAt = new Date(task.completedAt);
+    const createdAt = new Date(task.createdAt);
+
+    const diffInMilliseconds = completedAt.getTime() - createdAt.getTime();
+    const diffInHours = diffInMilliseconds / (1000 * 60 * 60);
+    const diffInDays = Math.floor(diffInHours / 24);
+    const remainingHours = Math.floor(diffInHours % 24);
+
+    return `${diffInDays} days, ${remainingHours} hours`;
+  }
+
   private updateTask(patchDoc: { op: 'replace'; path: string; value: any }[]) {
     const task = this.task();
     if (!task) return;

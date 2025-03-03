@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -17,7 +17,8 @@ import { TaskService } from '../../_services/task.service';
   templateUrl: './new-task-modal.component.html',
   styleUrl: './new-task-modal.component.css',
 })
-export class NewTaskModalComponent implements OnInit {
+export class NewTaskModalComponent implements OnInit, AfterViewInit  {
+  @ViewChild('descriptionInput') descriptionInput!: ElementRef<HTMLInputElement>;
   private fb = inject(FormBuilder);
   private taskService = inject(TaskService);
   minDate = new Date();
@@ -32,7 +33,9 @@ export class NewTaskModalComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
   }
-
+  ngAfterViewInit() {
+    setTimeout(() => this.descriptionInput.nativeElement.focus(), 0);
+  }
   initializeForm() {
     this.newTaskForm = this.fb.group({
       title: [, Validators.maxLength(32)],

@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
@@ -79,5 +80,12 @@ public class TaskService(ITaskRepository taskRepository,
             pagedTasks.CurrentPage,
             pagedTasks.PageSize
         );
+    }
+
+    public async Task<TaskStatDto> GetTaskStatistics(ClaimsPrincipal user)
+    {
+        var id = int.Parse(user.GetUserId());
+        var stats = await taskRepository.GetTaskStatsAsync(id);
+        return mapper.Map<TaskStatDto>(stats);
     }
 }
