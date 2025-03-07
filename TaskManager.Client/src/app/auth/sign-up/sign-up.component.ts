@@ -24,7 +24,7 @@ export class SignUpComponent implements OnInit {
   signUpForm: FormGroup = new FormGroup({});
   isFormSubmitted = false;
   passwordVisible: boolean = false;
-  validationErrors:any[] | undefined;
+  validationErrors: any[] | undefined;
 
   ngOnInit(): void {
     this.initializeForm();
@@ -33,6 +33,7 @@ export class SignUpComponent implements OnInit {
   initializeForm() {
     this.signUpForm = this.fb.group({
       nickName: ['', [Validators.required, Validators.maxLength(32)]],
+      description: ['', [Validators.maxLength(64)]],
       email: ['', [Validators.required, Validators.email]],
       password: [
         '',
@@ -40,7 +41,7 @@ export class SignUpComponent implements OnInit {
           Validators.required,
           Validators.minLength(8),
           Validators.maxLength(16),
-        ],  
+        ],
       ],
       dateOfBirth: ['2000-01-01', Validators.required],
     });
@@ -53,11 +54,12 @@ export class SignUpComponent implements OnInit {
     this.signUpForm.patchValue({ dateOfBirth: dob });
     this.accountService.register(this.signUpForm.value).subscribe({
       next: () => {
-        this.router.navigateByUrl('')
+        this.router.navigateByUrl('');
       },
       error: (errors) => {
-        console.error(errors)
-        this.validationErrors = Array.isArray(errors) ? errors : undefined;}
+        console.error(errors);
+        this.validationErrors = Array.isArray(errors) ? errors : undefined;
+      },
     });
   }
   private getDateOnly(dob: string | undefined) {

@@ -9,9 +9,12 @@
   align-items: center;
 }
 .profile-card p {
-  word-wrap: break-word; 
-  overflow-wrap: break-word; 
-  white-space: normal; 
-  max-width: 90%; 
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  max-width: 90%;
 }
-
+.dropdown-item:hover {
+  cursor: pointer;
+  background-color: var(--bs-warning);;
+}

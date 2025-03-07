@@ -16,7 +16,8 @@
     class="container d-flex flex-column align-items-center justify-content-start mt-5"
   >
     <h2>
-      Welcome back <u>{{ accountService.currentUser()?.nickName }}</u>
+      Welcome back
+      <u routerLink="/profile" style="cursor: pointer;">{{ accountService.currentUser()?.nickName }}</u>
     </h2>
     <h4>Stay productive and manage your tasks efficiently</h4>
     <h4 class="mt-5">Your Statistics</h4>

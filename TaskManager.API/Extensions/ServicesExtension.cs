@@ -20,6 +20,8 @@ public static class ServicesExtension
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITaskRepository, TaskRepository>();
         services.AddScoped<ITaskService, TaskService>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserService, UserService>();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         services.AddIdentityCore<AppUser>(o =>
         {

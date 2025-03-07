@@ -1,7 +1,9 @@
 using System.Security.Claims;
+using System.Web;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using TaskManager.Application.DTOs;
+using TaskManager.Application.DTOs.User;
 using TaskManager.Application.Exceptions;
 using TaskManager.Application.Extensions;
 using TaskManager.Application.IServices;
@@ -66,5 +68,34 @@ public class AuthService(IMapper mapper, UserManager<AppUser> userManager,
         var result = mapper.Map<AppUserDto>(appUser);
 
         return result;
+    }
+    public async Task ChangeEmail(ClaimsPrincipal user, string newEmail)
+    {
+        var userId = user.GetUserId();
+        var appUser = await userManager.FindByIdAsync(userId)
+            ?? throw new KeyNotFoundException("No users with this id");
+
+        var emailResult = await userManager.SetEmailAsync(appUser, newEmail);
+        if (!emailResult.Succeeded)
+            throw new ValidationException("Changing email failed", emailResult.Errors);
+
+        var usernameResult = await userManager.SetUserNameAsync(appUser, newEmail);
+        if (!usernameResult.Succeeded)
+            throw new ValidationException("Changing email failed", usernameResult.Errors);
+
+        await userManager.UpdateAsync(appUser);
+    }
+    public async Task ChangePassword(ClaimsPrincipal user, ChangePasswordDto change)
+    {
+        var userId = user.GetUserId();
+        var appUser = await userManager.FindByIdAsync(userId)
+            ?? throw new KeyNotFoundException("No users with this id");
+
+        var passwordResult = await userManager.ChangePasswordAsync(appUser, change.CurrentPassword, change.NewPassword);
+        if (!passwordResult.Succeeded)
+            throw new ValidationException("Changing password failed", passwordResult.Errors);
+
+        await userManager.UpdateAsync(appUser);
+
     }
 }

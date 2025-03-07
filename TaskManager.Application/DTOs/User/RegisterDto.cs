@@ -10,9 +10,11 @@ public class RegisterDto
     [Required]
     [EmailAddress]
     public required string Email { get; set; }
+    [StringLength(64, ErrorMessage = "Your description is too long")]
+    public string? Description { get; set; }
     [Required]
     public DateOnly DateOfBirth { get; set; }
     [Required]
     [StringLength(16, MinimumLength = 8)]
-    public required string Password {get; set;} 
+    public required string Password { get; set; }
 }

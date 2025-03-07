@@ -13,4 +13,16 @@ export class UsersService {
   getUser() {
     return this.http.get<AppUser>(this.baseUrl + 'users/me');
   }
+  patchUser(patchDoc: any) {
+    return this.http.patch(this.baseUrl + 'users/me', patchDoc);
+  }
+  changeEmail(newEmail: string) {
+    return this.http.post(this.baseUrl + 'users/me/change-email', { newEmail });
+  }
+  changePassword(changePassword: any) {
+    return this.http.post(
+      this.baseUrl + 'users/me/change-password',
+      changePassword
+    );
+  }
 }

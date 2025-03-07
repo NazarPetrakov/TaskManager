@@ -14,7 +14,29 @@
       />
     </div>
     <div class="text-danger" *ngIf="signUpForm.controls['nickName'].invalid">
-      <span  *ngIf="signUpForm.controls['nickName'].errors?.['maxlength']">Nickname length must be less than 32</span>
+      <span *ngIf="signUpForm.controls['nickName'].errors?.['maxlength']"
+        >Nickname length must be less than 32</span
+      >
+    </div>
+
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Description</label>
+      <textarea
+        type="text"
+        class="form-control"
+        placeholder="Tell about yourself"
+        formControlName="description"
+        rows="1"
+        placeholder="Tell us about yourself..."
+      ></textarea>
+      <div
+        class="text-danger"
+        *ngIf="signUpForm.controls['description'].invalid"
+      >
+        <span *ngIf="signUpForm.controls['description'].errors?.['maxlength']"
+          >Description length must be less than 64</span
+        >
+      </div>
     </div>
 
     <div class="mb-3">
@@ -26,26 +48,36 @@
         formControlName="email"
       />
       <div class="text-danger" *ngIf="signUpForm.controls['email'].invalid">
-        <span *ngIf="signUpForm.controls['email'].errors?.['email']">Email is incorrect</span>
+        <span *ngIf="signUpForm.controls['email'].errors?.['email']"
+          >Email is incorrect</span
+        >
       </div>
     </div>
 
     <div class="mb-3">
       <label for="exampleInputPassword1" class="form-label">Password*</label>
       <div class="input-group">
-        <input 
-          [type]="passwordVisible ? 'text' : 'password'" 
-          class="form-control" 
+        <input
+          [type]="passwordVisible ? 'text' : 'password'"
+          class="form-control"
           placeholder="Enter your password"
           formControlName="password"
         />
-        <button class="btn btn-secondary" type="button" (click)="togglePasswordVisibility()">
+        <button
+          class="btn btn-secondary"
+          type="button"
+          (click)="togglePasswordVisibility()"
+        >
           <i [class]="passwordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
         </button>
       </div>
       <div class="text-danger" *ngIf="signUpForm.controls['password'].invalid">
-        <span *ngIf="signUpForm.controls['password'].errors?.['minlength']">Password length must be longer than 8</span>
-        <span *ngIf="signUpForm.controls['password'].errors?.['maxlength']">Password length must be less than 16</span>
+        <span *ngIf="signUpForm.controls['password'].errors?.['minlength']"
+          >Password length must be longer than 8</span
+        >
+        <span *ngIf="signUpForm.controls['password'].errors?.['maxlength']"
+          >Password length must be less than 16</span
+        >
       </div>
     </div>
 
@@ -56,27 +88,41 @@
         placeholder="Datepicker"
         class="form-control"
         bsDatepicker
-        [bsConfig]="{adaptivePosition: true, 
-          dateInputFormat: 'YYYY-MM-DD', 
-          containerClass : 'theme-default'}"
+        [bsConfig]="{
+          adaptivePosition: true,
+          dateInputFormat: 'YYYY-MM-DD',
+          containerClass: 'theme-default'
+        }"
         formControlName="dateOfBirth"
       />
     </div>
-    <div class="text-danger" *ngIf="signUpForm.controls['dateOfBirth'].invalid && signUpForm.controls['dateOfBirth'].touched">
-      <p *ngIf="signUpForm.controls['dateOfBirth'].errors?.['required']">Date of birth is required.</p>
+    <div
+      class="text-danger"
+      *ngIf="
+        signUpForm.controls['dateOfBirth'].invalid &&
+        signUpForm.controls['dateOfBirth'].touched
+      "
+    >
+      <p *ngIf="signUpForm.controls['dateOfBirth'].errors?.['required']">
+        Date of birth is required.
+      </p>
     </div>
-    <button type="submit" 
+    <button
+      type="submit"
       [disabled]="!signUpForm.valid"
-      class="btn btn-primary">Register</button>
+      class="btn btn-primary"
+    >
+      Register
+    </button>
   </form>
-  
+
   @if (validationErrors) {
-    <div class="alert alert-danger text-start mt-4">
-      <ul class="list-unstyled">
-        @for (error of validationErrors; track $index) {
-          <li>{{error.Description}}</li>
-        }
-      </ul>
-    </div>
+  <div class="alert alert-danger text-start mt-4">
+    <ul class="list-unstyled">
+      @for (error of validationErrors; track $index) {
+      <li>{{ error.Description }}</li>
+      }
+    </ul>
+  </div>
   }
 </div>

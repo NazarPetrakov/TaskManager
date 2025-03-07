@@ -91,3 +91,24 @@ body {
   padding: 15px 0;
   background-color: white; 
 }
+.input-group {
+  display: flex;
+  width: 100%;
+  min-width: 330px;
+}
+
+.input-group .form-control {
+  background-color: #fff;
+}
+
+.input-group .btn {
+  width: 40px; 
+  padding: 0; 
+  background-color: #fff;
+}
+
+.input-group .btn i {
+  font-size: 1.1rem;
+  color: #495057;
+}
+

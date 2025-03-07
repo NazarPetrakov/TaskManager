@@ -7,6 +7,9 @@ import { ServerErrorComponent } from './error/server-error/server-error.componen
 import { ProfileComponent } from './profile/profile.component';
 import { TaskListComponent } from './tasks/task-list/task-list.component';
 import { authGuard } from './_guards/auth.guard';
+import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
+import { ChangePasswordComponent } from './profile/change-password/change-password.component';
+import { ChangeEmailComponent } from './profile/change-email/change-email.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -15,6 +18,9 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: 'profile', component: ProfileComponent },
+      { path: 'profile/edit', component: EditProfileComponent },
+      { path: 'profile/change-password', component: ChangePasswordComponent },
+      { path: 'profile/change-email', component: ChangeEmailComponent },
       { path: 'tasks', component: TaskListComponent },
     ],
   },
