@@ -2,37 +2,36 @@
   cursor: pointer;
 }
 .task-card {
-  width: 80%; 
+  width: 80%;
   max-width: 1100px;
-  margin: 0 auto; 
+  margin: 0 auto;
   padding: 0;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
 .task-props {
   display: flex;
-  align-items: stretch; 
+  align-items: stretch;
   border: 3px solid #510668;
 }
-
 .task-title {
-  padding: 0.5em 1em; 
+  padding: 0.5em 1em;
   display: inline-block;
   border: 3px solid #510668;
   background-color: #510668;
   color: white;
   border-bottom: none;
   border-radius: 15px 25px 0px 0px;
-  font-size: 1.2em; 
+  font-size: 1.2em;
 }
 
 .task-desc {
   padding: 1em;
-  line-height: 1.5; 
+  line-height: 1.5;
   width: 100%;
   border: 3px solid #510668;
   border-bottom: none;
-  font-size: 1em; 
+  font-size: 1em;
   overflow-wrap: anywhere;
 }
 
@@ -41,18 +40,18 @@
   font-weight: bold;
   padding: 0.5em;
   text-align: center;
-  flex: 1; 
+  flex: 1;
   display: flex;
-  align-items: center; 
-  justify-content: center; 
-  overflow: hidden; 
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis; 
-  font-size: 1em; 
+  text-overflow: ellipsis;
+  font-size: 1em;
 }
 
 .trash-container {
-  padding-left: 30px;
+  padding-left: 20px;
   font-size: 1.8em;
 }
 
@@ -64,32 +63,31 @@
   transform: scale(1.1);
 }
 .btn-group {
-  position: relative; 
+  position: relative;
 }
 
 .dropdown-menu {
-  position: absolute; 
-  top: 100%; 
+  position: absolute;
+  top: 100%;
   left: 0;
   z-index: 1000;
-  display: none; 
+  display: none;
 }
 .dropdown-menu.show {
-  display: block; 
+  display: block;
 }
-
 .date-input {
   border: none;
   border-bottom: 1px solid white;
   transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
   color: var(--bs-light) !important;
-  font-size: 1.05em;
+  font-size: 1em;
   text-align: center;
 }
 .date-input:hover {
   background-color: rgb(255, 255, 255) !important;
   cursor: pointer;
-  transform: scale(1.05);
+  transform: scale(1.01);
   color: var(--bs-primary) !important;
 }
 .date-input::placeholder {
@@ -98,5 +96,68 @@
 }
 .fa-solid {
   font-size: 1.1rem;
+  padding-right: 13px;
 }
-
+.date-container {
+  display: none;
+}
+@media (max-width: 968px) {
+  * {
+    font-size: 0.95em;
+  }
+  .task-title {
+    padding: 0.4em 0.9em;
+    border: 2px solid #510668;
+    font-size: 0.9em;
+    border-radius: 15px 17px 0px 0px;
+  }
+  .task-desc {
+    padding: 0.9em;
+    line-height: 1.4;
+    width: 100%;
+    font-size: 0.8em;
+  }
+  .task-card {
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .fa-solid {
+    font-size: 0.8rem;
+  }
+  .dropdown-toggle {
+    font-size: 0.9em;
+  }
+  .dueTo {
+    font-size: 0.9em;
+    min-width: 40px;
+  }
+  .date-input {
+    font-size: 0.8em;
+    padding: 0.2em;
+  }
+  .task-props {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+  .dropdown-toggle {
+    width: 100%;
+  }
+  .btn-group {
+    width: 100%;
+  }
+  .btn-group .btn {
+    width: 100%;
+  }
+  .date-col {
+    width: 100%;
+  }
+}
+@media (max-width: 1368px) {
+  .task-card {
+    width: 100%;
+  }
+}

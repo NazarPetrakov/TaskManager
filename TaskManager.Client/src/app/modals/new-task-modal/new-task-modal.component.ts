@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -17,8 +24,9 @@ import { TaskService } from '../../_services/task.service';
   templateUrl: './new-task-modal.component.html',
   styleUrl: './new-task-modal.component.css',
 })
-export class NewTaskModalComponent implements OnInit, AfterViewInit  {
-  @ViewChild('descriptionInput') descriptionInput!: ElementRef<HTMLInputElement>;
+export class NewTaskModalComponent implements OnInit, AfterViewInit {
+  @ViewChild('descriptionInput')
+  descriptionInput!: ElementRef<HTMLInputElement>;
   private fb = inject(FormBuilder);
   private taskService = inject(TaskService);
   minDate = new Date();
@@ -53,6 +61,7 @@ export class NewTaskModalComponent implements OnInit, AfterViewInit  {
       this.taskService.createTask(task).subscribe({
         next: (newTask) => {
           this.taskService.taskCache.clear();
+          this.taskService.clearTaskStatsCache();
           this.taskService.paginatedResult.update((paginated) => {
             if (!paginated)
               return {

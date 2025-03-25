@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { effect, inject, Injectable, signal } from '@angular/core';
 import { AccountService } from './account.service';
-import { environment } from '../../environments/environment.development';
 import { Task } from '../models/Task';
-import { of, tap } from 'rxjs';
+import { BehaviorSubject, of, tap } from 'rxjs';
 import { PaginatedResult } from '../models/Pagination';
 import { TaskParams } from '../models/TaskQueryParams';
 import {
@@ -11,6 +10,7 @@ import {
   setPaginationResponse,
 } from '../_helpers/paginationHelper';
 import { TaskStats } from '../models/TaskStats';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +19,7 @@ export class TaskService {
   private http = inject(HttpClient);
   private baseUrl = environment.baseUrl;
   private accountService = inject(AccountService);
+  private taskStatsCache$ = new BehaviorSubject<TaskStats | null>(null);
   taskCache = new Map();
   paginatedResult = signal<PaginatedResult<Task[]> | null>(null);
   taskParams = signal<TaskParams>(
@@ -102,6 +103,15 @@ export class TaskService {
     return this.http.delete(this.baseUrl + 'tasks/' + taskId);
   }
   getTaskStatistics() {
-    return this.http.get<TaskStats>(this.baseUrl + 'tasks/stats');
+    if (this.taskStatsCache$.value) {
+      return of(this.taskStatsCache$.value);
+    }
+
+    return this.http
+      .get<TaskStats>(this.baseUrl + 'tasks/stats')
+      .pipe(tap((taskStats) => this.taskStatsCache$.next(taskStats)));
+  }
+  clearTaskStatsCache(): void {
+    this.taskStatsCache$.next(null);
   }
 }

@@ -4,7 +4,6 @@ import {
   inject,
   input,
   OnInit,
-  output,
   ViewChild,
 } from '@angular/core';
 import { Task } from '../../models/Task';
@@ -200,6 +199,7 @@ export class TaskComponent implements OnInit {
 
     this.taskService.patchTask(task.id, patchDoc).subscribe({
       next: () => {
+        this.taskService.clearTaskStatsCache();
         this.taskService.paginatedResult.update((paginated) => {
           if (!paginated) return paginated;
           return {

@@ -1,7 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { UsersService } from '../_services/users.service';
-import { AppUser } from '../models/AppUser';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AccountService } from '../_services/account.service';
 import { TaskService } from '../_services/task.service';
 import { TaskStats } from '../models/TaskStats';

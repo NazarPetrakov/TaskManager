@@ -23,6 +23,11 @@ app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
 app.UseAuthorization();
 app.MapControllers();
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+app.MapFallbackToController("Index", "Fallback");
+
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 

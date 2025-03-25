@@ -1,10 +1,10 @@
 <div class="container">
   <div
-    class="d-flex justify-content-center align-items-center position-relative my-4"
+    class="centered-container"
   >
     <h1 class="mb-0">Your Tasks</h1>
     <button
-      class="btn btn-success ms-3"
+      class="btn btn-success ms-3 new-button"
       tooltip="Create new task"
       #pop="bs-tooltip"
       placement="right"
@@ -16,8 +16,7 @@
 
   <tabset class="task-tabset">
     <div
-      class="d-flex justify-content-start gap-3 py-2 order"
-      style="margin: 0 150px;"
+      class="order"
       *ngIf="taskStateService.selectedToDoTab()"
     >
       <div

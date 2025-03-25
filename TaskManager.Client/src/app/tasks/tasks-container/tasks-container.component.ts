@@ -1,4 +1,4 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { TaskComponent } from '../task/task.component';
 import { Task } from '../../models/Task';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';

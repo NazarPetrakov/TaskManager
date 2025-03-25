@@ -11,17 +11,20 @@ public static class Seed
 {
     public static async Task SeedUsersAsync(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, ILogger logger)
     {
-        if(await userManager.Users.AnyAsync()) return;
+        if (await userManager.Users.AnyAsync()) return;
 
-        var file = await File.ReadAllTextAsync("..\\TaskManager.Infrastructure\\Data\\UsersData");
+        string basePath = AppDomain.CurrentDomain.BaseDirectory;
+        string path = Path.Combine(basePath, "Data", "UsersData.json");
 
-        var options = new JsonSerializerOptions {PropertyNameCaseInsensitive = true};
+        var file = await File.ReadAllTextAsync(path);
+
+        var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
         var users = JsonSerializer.Deserialize<List<AppUser>>(file, options);
 
-        if(users == null) return ;
+        if (users == null) return;
 
-        var roles = new List<AppRole> 
+        var roles = new List<AppRole>
         {
             new() {Name = "User"},
             new() {Name = "Admin"},

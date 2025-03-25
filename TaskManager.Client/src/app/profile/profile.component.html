@@ -1,6 +1,6 @@
 @if (user) {
-<div class="container d-flex justify-content-center align-items-center vh-100">
-  <div class="card shadow-lg p-4 text-center w-50">
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card pofile-card shadow-lg p-4 text-center">
     <div class="card-body">
       <h2 class="mb-3 text-primary">{{ user.nickName }}</h2>
       <p class="text-muted fst-italic" *ngIf="user.description">
@@ -22,10 +22,10 @@
         }}</span>
       </p>
 
-      <div class="d-flex justify-content-center gap-3 mt-4">
-        <a class="btn btn-primary" (click)="goToEditProfile()"
-          >Edit Profile</a
-        >
+      <div class="buttons-container">
+        <button class="btn btn-primary" (click)="goToEditProfile()">
+          Edit Profile
+        </button>
 
         <div class="btn-group" dropdown [dropup]="true">
           <button

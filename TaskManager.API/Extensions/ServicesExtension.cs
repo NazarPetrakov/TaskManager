@@ -15,7 +15,7 @@ public static class ServicesExtension
     {
         services.AddCors();
         services.AddDbContext<AppDbContext>(o =>
-            o.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
+            o.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITaskRepository, TaskRepository>();

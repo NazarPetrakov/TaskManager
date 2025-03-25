@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { UsersService } from '../../_services/users.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-change-password',
@@ -13,6 +14,7 @@ import { UsersService } from '../../_services/users.service';
 })
 export class ChangePasswordComponent {
   private usersService = inject(UsersService);
+  private toastr = inject(ToastrService);
   private router = inject(Router);
 
   changePasswordData = {
@@ -20,7 +22,6 @@ export class ChangePasswordComponent {
     newPassword: '',
   };
 
-  // Separate booleans for each password field
   currentPasswordVisible: boolean = false;
   newPasswordVisible: boolean = false;
 
@@ -32,6 +33,7 @@ export class ChangePasswordComponent {
     this.usersService.changePassword(this.changePasswordData).subscribe({
       next: () => {
         this.router.navigateByUrl('/profile');
+        this.toastr.success('Password successfully changed');
       },
       error: (errors) => {
         console.error(errors);

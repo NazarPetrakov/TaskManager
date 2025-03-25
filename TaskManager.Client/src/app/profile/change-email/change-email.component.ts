@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { UsersService } from '../../_services/users.service';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-change-email',
@@ -14,6 +15,7 @@ import { CommonModule } from '@angular/common';
 export class ChangeEmailComponent {
   private usersService = inject(UsersService);
   private router = inject(Router);
+  private toastr = inject(ToastrService);
   newEmail: string = '';
   validationErrors: any[] | undefined;
 
@@ -23,6 +25,7 @@ export class ChangeEmailComponent {
     this.usersService.changeEmail(this.newEmail).subscribe({
       next: () => {
         this.router.navigateByUrl('/profile');
+        this.toastr.success('Email successfully changed');
       },
       error: (errors) => {
         console.error(errors);

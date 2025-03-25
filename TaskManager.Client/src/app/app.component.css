@@ -4,9 +4,7 @@
 }
 .main {
   width: 100%;
-  /* min-height: 100vh; */
-  overflow: hidden;
-  /* overflow-y: auto; */
+  overflow: auto;
   transition: margin-left 0.35s ease-in-out;
   background-color: #fafbfe;
 }
@@ -31,7 +29,7 @@
   cursor: pointer;
   border: 0;
   padding: 1rem 1.5rem;
-  align-items: center; /* Центруємо іконку кнопки по вертикалі */
+  align-items: center;
 }
 .toggle-btn i {
   font-size: 1.5rem;
@@ -52,13 +50,13 @@
 .sidebar-link {
   padding: 0.625rem 1.625rem;
   color: #fff;
-  display: flex; 
+  display: flex;
   align-items: center;
   font-size: 0.9rem;
   white-space: nowrap;
   border-left: 3px solid transparent;
   cursor: pointer;
-  height: 50px; 
+  height: 50px;
   line-height: 50px;
 }
 .sidebar-link i {
@@ -76,4 +74,51 @@
 a.sidebar-link:hover {
   background-color: rgba(255, 255, 255, 0.075);
   border-left: 4px solid rgb(255, 255, 255);
+}
+.home-btn {
+  display: none;
+}
+
+@media screen and (max-width: 968px) {
+  #sidebar {
+    width: 70px !important;
+    min-width: 70px !important;
+  }
+
+  #sidebar.expand {
+    width: 40px !important;
+    min-width: 40px !important;
+  }
+
+  .toggle-btn {
+    display: none;
+  }
+  .sidebar-logo a {
+    display: none;
+  }
+  .sidebar-link {
+    padding: 0.325rem 0.595rem;
+    font-size: 0.9rem;
+    border-left: 2px solid transparent;
+    height: 50px;
+    line-height: 50px;
+  }
+  .sidebar-link span {
+    display: none;
+  }
+  .sidebar-link i {
+    font-size: 0.9rem;
+  }
+  .home-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1rem 0;
+  }
+
+  .home-btn i {
+    font-size: 0.9rem;
+    color: #fafbfe;
+  }
 }

@@ -7,7 +7,6 @@
       }
       <div class="task-desc d-flex justify-content-between align-items-center">
         <span *ngIf="!isEditing">{{ task()?.description }}</span>
-
         <textarea
           *ngIf="isEditing"
           #editInput
@@ -139,33 +138,32 @@
         </div>
 
         <div
-          class="col-4 d-flex align-items-center gap-2 bg-primary text-light"
+          class="col-4 d-flex align-items-center gap-2 bg-primary text-light date-col"
         >
           @if(taskStateService.selectedToDoTab()){
-          <label class="ms-2">Due to:</label>
-          <input
-            type="text"
-            class="form-control form-control-sm bg-primary text-light date-input"
-            bsDatepicker
-            placeholder="No deadline"
-            [(ngModel)]="date"
-            [bsConfig]="{
-              withTimepicker: true,
-              keepDatepickerOpened: true,
-              adaptivePosition: true,
-              dateInputFormat: 'DD MMM YYYY, HH:mm:ss',
-              containerClass: 'theme-red',
-              showClearButton: true,
-              clearPosition: 'right'
-            }"
-            (onHidden)="updateDate()"
-            style="max-width: 190px"
-          />
-          <i
-            *ngIf="task()?.deadLine"
-            class="fa-solid"
-            [ngClass]="getDeadlineClass()"
-          ></i>
+              <label class="ms-2 dueTo">Due to:</label>
+              <input
+                type="text"
+                class="form-control form-control-sm bg-primary text-light date-input"
+                bsDatepicker
+                placeholder="No deadline"
+                [(ngModel)]="date"
+                [bsConfig]="{
+                  withTimepicker: true,
+                  keepDatepickerOpened: true,
+                  adaptivePosition: true,
+                  dateInputFormat: 'DD MMM YYYY, HH:mm:ss',
+                  containerClass: 'theme-red',
+                  showClearButton: true,
+                  clearPosition: 'right'
+                }"
+                (onHidden)="updateDate()"
+              />
+              <i
+                *ngIf="task()?.deadLine"
+                class="fa-solid"
+                [ngClass]="getDeadlineClass()"
+              ></i>
           }@else {
           <span class="ms-2">Completed in</span>
           <div

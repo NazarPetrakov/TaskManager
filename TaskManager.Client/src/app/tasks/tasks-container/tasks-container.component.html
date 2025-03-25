@@ -1,9 +1,5 @@
-@if(tasks()){
-<div class="container">
-  @for (task of tasks(); track task.id ) {
-  <app-task [task]="task"></app-task>
-  }
-</div>
-}@else {
+@if(tasks()){ @for (task of tasks(); track task.id ) {
+<app-task [task]="task"></app-task>
+} }@else {
 <h2>No tasks</h2>
 }

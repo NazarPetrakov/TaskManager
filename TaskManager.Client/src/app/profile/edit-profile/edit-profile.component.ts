@@ -41,16 +41,22 @@ export class EditProfileComponent {
     ];
     this.usersService.patchUser(patchDoc).subscribe({
       next: () => {
-        this.accountService.currentUser.update((user) => {
-          if (user) {
-            const updatedUser = { ...user, nickName: this.editForm.nickName };
-            this.accountService.setCurrentUser(updatedUser);
-            return updatedUser;
-          }
-          return user;
+        this.usersService.refreshUser().subscribe({
+          next: () => {
+            this.accountService.currentUser.update((user) => {
+              if (user) {
+                const updatedUser = {
+                  ...user,
+                  nickName: this.editForm.nickName,
+                };
+                this.accountService.setCurrentUser(updatedUser);
+                return updatedUser;
+              }
+              return user;
+            });
+            this.router.navigateByUrl('/profile');
+          },
         });
-
-        this.router.navigateByUrl('/profile');
       },
       error: (error) => console.log(error),
     });
