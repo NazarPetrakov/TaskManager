@@ -483,3 +483,6 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 TaskManager.API/appsettings.json
+TaskManager.Infrastructure/Data/taskManager.db-shm
+TaskManager.Infrastructure/Data/taskManager.db-wal
+TaskManager.Infrastructure/Data/taskManager.db

@@ -1,0 +1,59 @@
+<div
+  class="container d-flex flex-column align-items-center justify-content-start"
+  style="margin-top: 10vh; max-width: 400px; width: 100%;"
+>
+  <h2 class="mb-4">Sign In</h2>
+  <form #loginForm="ngForm" (ngSubmit)="onLogin()">
+    <div class="mb-3">
+      <label for="email" class="form-label">Email address</label>
+      <input
+        type="email"
+        [(ngModel)]="loginUser.email"
+        id="email"
+        required
+        name="email"
+        class="form-control"
+        placeholder="Enter your email"
+        #email="ngModel"
+      />
+      <div class="text-danger small" *ngIf="email.invalid && email.touched">
+        <span *ngIf="email.errors?.['required']">Email is required.</span>
+        <span *ngIf="email.errors?.['email']">Invalid email format.</span>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <div class="input-group">
+        <input
+          [type]="passwordVisible ? 'text' : 'password'"
+          [(ngModel)]="loginUser.password"
+          class="form-control"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+          required
+          minlength="8"
+          maxlength="16"
+          #password="ngModel"
+        />
+        <button
+          class="btn btn-secondary"
+          type="button"
+          (click)="togglePasswordVisibility()"
+        >
+          <i [class]="passwordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+        </button>
+      </div>
+      <div class="text-danger small" *ngIf="password.invalid && password.touched">
+        <span *ngIf="password.errors?.['required']">Password is required.</span>
+        <span *ngIf="password.errors?.['minlength']">Password must be at least 8 characters.</span>
+        <span *ngIf="password.errors?.['maxlength']">Password must be less than 16 characters.</span>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">
+      Log in
+    </button>
+  </form>
+</div>

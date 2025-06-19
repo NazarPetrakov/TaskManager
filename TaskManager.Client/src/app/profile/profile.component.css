@@ -1,0 +1,34 @@
+.profile-card {
+  width: 100%;
+  max-width: 400px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-card p {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  max-width: 90%;
+}
+
+.dropdown-item:hover {
+  cursor: pointer;
+  background-color: var(--bs-warning);
+}
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .profile-card {
+    padding: 1rem;
+  }
+  .buttons-container {
+    flex-direction: column;
+  }
+}

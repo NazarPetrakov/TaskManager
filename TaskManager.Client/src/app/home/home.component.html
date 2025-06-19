@@ -1,0 +1,99 @@
+<div
+  class="container d-flex flex-column align-items-center justify-content-start"
+  style="margin-top: 10vh"
+  *ngIf="!accountService.currentUser(); else loggedInBlock"
+>
+  <h2>Hello, it is your TaskManager</h2>
+  <h4 class="mb-4">Log in to your account or register</h4>
+  <div>
+    <a routerLink="signIn" class="btn btn-primary me-2">Sign In</a>
+    <a routerLink="signUp" class="btn btn-outline-primary">Sign Up</a>
+  </div>
+</div>
+
+<ng-template #loggedInBlock>
+  <div
+    class="container d-flex flex-column align-items-center justify-content-start mt-5"
+  >
+    <h2>
+      Welcome back
+      <u routerLink="/profile" style="cursor: pointer;">{{ accountService.currentUser()?.nickName }}</u>
+    </h2>
+    <h4>Stay productive and manage your tasks efficiently</h4>
+    <h4 class="mt-5">Your Statistics</h4>
+
+    <div class="row mt-4" *ngIf="!isLoading">
+      <div class="col-md-4">
+        <div
+          class="card text-white bg-primary mb-3 hover-card"
+          (click)="navigateToTasks()"
+        >
+          <div class="card-header">To-Do Tasks</div>
+          <div class="card-body">
+            <h4 class="card-title">
+              You have {{ taskStats.toDoCount || 0 }} tasks to do
+            </h4>
+            <p class="card-text">Manage your workload efficiently.</p>
+            <p class="card-text" style="font-size: 0.9em">
+              Click to see all tasks...
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div
+          class="card text-white bg-success mb-3 hover-card"
+          (click)="navigateToTasks()"
+        >
+          <div class="card-header">Completed Tasks</div>
+          <div class="card-body">
+            <h4 class="card-title">
+              You have completed {{ taskStats.completeCount || 0 }} tasks
+            </h4>
+            <p class="card-text">Great job! Keep up the productivity.</p>
+            <p class="card-text" style="font-size: 0.9em">
+              Click to see all tasks...
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div
+          class="card text-white bg-danger mb-3 hover-card"
+          (click)="navigateToTasks()"
+        >
+          <div class="card-header">Upcoming Deadlines</div>
+          <div class="card-body">
+            <h4 class="card-title">Tasks due soon</h4>
+            <div class="card-text">
+              <ng-container
+                *ngIf="taskStats.urgentTasks.length > 0; else noUrgentTasks"
+              >
+                <div *ngFor="let task of taskStats.urgentTasks.slice(0, 2)">
+                  <div>
+                    <b>{{ task.title || "No title" }}</b>
+                  </div>
+                  <div>{{ task.description | truncate : 25 }}</div>
+                  <div>
+                    To:
+                    {{ task.deadLine | date : "dd MMM yyyy HH:mm:ss" }}
+                  </div>
+
+                  <hr />
+                </div>
+              </ng-container>
+              <ng-template #noUrgentTasks>
+                You don't have any tasks with a deadline in the next 24 hours.
+              </ng-template>
+            </div>
+            <p class="card-text" style="font-size: 0.9em">
+              Click to see all tasks...
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,71 @@
+<ngx-spinner type="ball-clip-rotate">
+  <h3>Loading</h3>
+</ngx-spinner>
+
+<div class="wrapper">
+  <aside id="sidebar" [class.expand]="toggle">
+    <div class="d-flex mt-3">
+      <a routerLink="/" class="home-btn">
+        <i class="fa-solid fa-home"></i>
+      </a>
+      <button class="toggle-btn" type="button" (click)="toggleSidebar()">
+        <i class="fa-solid fa-grip"></i>
+      </button>
+      <div class="sidebar-logo">
+        @if (toggle) {
+        <a routerLink="/">TaskManager</a>
+        }
+      </div>
+    </div>
+    @if(accountService.currentUser()){
+    <ul class="sidebar-nav">
+      <li class="sidebar-item">
+        <a routerLink="/profile" class="sidebar-link">
+          <i class="fa-regular fa-user"></i>
+          @if (toggle) {
+          <span>{{ accountService.currentUser()?.nickName }}</span>
+          }
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a routerLink="/tasks" class="sidebar-link">
+          <i class="fa-regular fa-calendar"></i>
+          @if (toggle) {
+          <span>Tasks</span>
+          }
+        </a>
+      </li>
+    </ul>
+    <div class="sidebar-footer">
+      <a (click)="logout()" class="sidebar-link">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        @if (toggle) {
+        <span>Logout</span>
+        }
+      </a>
+    </div>
+    } @else {
+    <ul class="sidebar-nav">
+      <li class="sidebar-item">
+        <a routerLink="/signIn" class="sidebar-link">
+          <i class="fa-regular fa-user"></i>
+          @if (toggle) {
+          <span>Sign In</span>
+          }
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a routerLink="/signUp" class="sidebar-link">
+          <i class="fas fa-user-plus"></i>
+          @if (toggle) {
+          <span>Sign up</span>
+          }
+        </a>
+      </li>
+    </ul>
+    }
+  </aside>
+  <div class="main p-3">
+    <router-outlet></router-outlet>
+  </div>
+</div>

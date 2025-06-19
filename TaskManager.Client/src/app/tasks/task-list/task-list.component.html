@@ -1,0 +1,112 @@
+<div class="container">
+  <div
+    class="centered-container"
+  >
+    <h1 class="mb-0">Your Tasks</h1>
+    <button
+      class="btn btn-success ms-3 new-button"
+      tooltip="Create new task"
+      #pop="bs-tooltip"
+      placement="right"
+      (click)="openNewTaskModal()"
+    >
+      <i class="fa-solid fa-plus"></i>
+    </button>
+  </div>
+
+  <tabset class="task-tabset">
+    <div
+      class="order"
+      *ngIf="taskStateService.selectedToDoTab()"
+    >
+      <div
+        (click)="orderBy('createdAt')"
+        [ngClass]="{ 'active-sort': isSortedBy('createdAt') }"
+        style="cursor: pointer"
+      >
+        <span>Created</span>
+        <i
+          class="fa-solid"
+          [ngClass]="
+            !orderToggles.createdAt
+              ? 'fa-arrow-up-wide-short'
+              : 'fa-arrow-down-wide-short'
+          "
+        ></i>
+      </div>
+
+      <div
+        (click)="orderBy('priority')"
+        style="cursor: pointer"
+        [ngClass]="{ 'active-sort': isSortedBy('priority') }"
+      >
+        <span>Priority</span>
+        <i
+          class="fa-solid"
+          [ngClass]="
+            !orderToggles.priority
+              ? 'fa-arrow-up-wide-short'
+              : 'fa-arrow-down-wide-short'
+          "
+        ></i>
+      </div>
+
+      <div
+        (click)="orderBy('deadline')"
+        style="cursor: pointer"
+        [ngClass]="{ 'active-sort': isSortedBy('deadline') }"
+      >
+        <span>Deadline</span>
+        <i
+          class="fa-solid"
+          [ngClass]="
+            !orderToggles.deadline
+              ? 'fa-arrow-up-wide-short'
+              : 'fa-arrow-down-wide-short'
+          "
+        ></i>
+      </div>
+    </div>
+    <tab heading="To Do" [active]="taskStateService.selectedToDoTab()" (selectTab)="loadTodoTasks()">
+      @if (loading()) {} @else if ((taskService.paginatedResult()?.items ??
+      []).length > 0) {
+      <div
+        class="tasks-scroll-container"
+        style="padding-bottom: 100px"
+        infiniteScroll
+        [infiniteScrollDistance]="0.3"
+        [infiniteScrollThrottle]="350"
+        [scrollWindow]="false"
+        (scrolled)="onScroll()"
+      >
+        <tasks-container
+          [tasks]="taskService.paginatedResult()?.items"
+        ></tasks-container>
+      </div>
+      } @else {
+      <h2 class="text-center mt-5">No task to do</h2>
+      }
+    </tab>
+
+    <tab heading="Complete" [active]="!taskStateService.selectedToDoTab()" (selectTab)="loadCompleteTasks()">
+      @if (loading()) {} @else if ((taskService.paginatedResult()?.items ??
+      []).length > 0) {
+      <div
+        class="tasks-scroll-container"
+        style="padding-bottom: 100px"
+        infiniteScroll
+        [infiniteScrollDistance]="0.3"
+        [infiniteScrollThrottle]="350"
+        [scrollWindow]="false"
+        (scrolled)="onScroll()"
+      >
+        <tasks-container
+          [tasks]="taskService.paginatedResult()?.items"
+        ></tasks-container>
+      </div>
+      } @else {
+      <h3 class="text-center mt-5">No completed tasks</h3>
+      }
+    </tab>
+  </tabset>
+</div>

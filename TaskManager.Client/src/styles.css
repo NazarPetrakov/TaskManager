@@ -1,0 +1,114 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+::after,
+::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+h1 {
+  font-weight: 600;
+  font-size: 2.0rem;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+.task-tabset > .nav-tabs {
+  display: flex;
+  justify-content: center; 
+  padding: 0;
+  margin: 0;
+}
+
+.task-tabset > .nav-tabs > li {
+  margin-right: 20px;
+  transition: all 0.1s ease;
+  font-size: 1.1rem;
+}
+
+.task-tabset > .nav-tabs > li:hover {
+  border-bottom: 4px solid #000000; 
+}
+
+.task-tabset > .nav-tabs > li.open > a {
+  border: 0;
+  background: none !important;
+  color: #510668; 
+}
+
+.task-tabset > .nav-tabs > li:hover > a {
+  border: 0;
+  background: none !important;
+  color: #510668; 
+}
+
+.task-tabset > .nav-tabs > li.open > a > i,
+.task-tabset > .nav-tabs > li:hover > a > i {
+  color: #510668;
+}
+
+.task-tabset > .nav-tabs > li.open .dropdown-menu,
+.task-tabset > .nav-tabs > li:hover .dropdown-menu {
+  margin-top: 0;
+}
+
+.task-tabset > .nav-tabs > li.active {
+  border-bottom: 4px solid #510668; 
+  position: relative;
+}
+
+.task-tabset > .nav-tabs > li.active > a {
+  border: 0 !important;
+  color: #ffffff; 
+  background-color: #510668; 
+  font-weight: bold; 
+}
+
+.task-tabset > .nav-tabs > li.active:hover > a,
+.task-tabset > .nav-tabs > li.active > a:hover {
+  color: #510668; 
+  background: none !important;
+}
+
+.task-tabset > .nav-tabs > li.active > a > i {
+  color: #ffffff;
+}
+
+.task-tabset > .tab-content {
+  margin-top: -5px;
+  border: 0;
+  border-top: 1px solid #eee;
+  padding: 15px 0;
+  background-color: white; 
+}
+.input-group {
+  display: flex;
+  width: 100%;
+  min-width: 330px;
+}
+
+.input-group .form-control {
+  background-color: #fff;
+}
+
+.input-group .btn {
+  width: 40px; 
+  padding: 0; 
+  background-color: #fff;
+}
+
+.input-group .btn i {
+  font-size: 1.1rem;
+  color: #495057;
+}
+

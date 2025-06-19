@@ -1,0 +1,63 @@
+@if (user) {
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card pofile-card shadow-lg p-4 text-center">
+    <div class="card-body">
+      <h2 class="mb-3 text-primary">{{ user.nickName }}</h2>
+      <p class="text-muted fst-italic" *ngIf="user.description">
+        {{ user.description }}
+      </p>
+      <p class="fw-bold">
+        Email: <span class="fw-normal">{{ user.email }}</span>
+      </p>
+      <p class="fw-bold">
+        Age:
+        <span class="fw-normal"
+          >{{ today | amDifference : user.dateOfBirth : "years" }} years</span
+        >
+      </p>
+      <p class="fw-bold">
+        Registered since:
+        <span class="fw-normal">{{
+          user.createdAt | amDateFormat : "LL"
+        }}</span>
+      </p>
+
+      <div class="buttons-container">
+        <button class="btn btn-primary" (click)="goToEditProfile()">
+          Edit Profile
+        </button>
+
+        <div class="btn-group" dropdown [dropup]="true">
+          <button
+            id="button-basic"
+            dropdownToggle
+            type="button"
+            class="btn btn-warning dropdown-toggle"
+            aria-controls="dropdown-basic"
+          >
+            Settings <span class="caret"></span>
+          </button>
+          <ul
+            id="dropdown-basic"
+            *dropdownMenu
+            class="dropdown-menu"
+            role="menu"
+            aria-labelledby="button-basic"
+          >
+            <li role="menuitem">
+              <a class="dropdown-item" routerLink="/profile/change-password"
+                >Change Password</a
+              >
+            </li>
+            <li role="menuitem">
+              <a class="dropdown-item" routerLink="/profile/change-email"
+                >Change Email</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+}
